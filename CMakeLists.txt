@@ -3,7 +3,9 @@ project(course_graph C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(course_graph main.c)
+add_executable(course_graph main.c ArrayList.c LinkedList.c Types.c Test.c
+               Course.c Degree.c
+               )
 
 target_include_directories(course_graph PUBLIC
                            "${PROJECT_BINARY_DIR}"

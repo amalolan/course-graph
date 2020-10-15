@@ -1,9 +1,9 @@
-#include <stdio.h>
-#include "test.c"
-
+#include "Test.h"
 
 int main() {
-    test();
-    printf("Hello, World!\n");
+    testArrayListDouble();
+    testArrayListString();
+    testLinkedListDouble();
+    testLinkedListString();
     return 0;
 }
