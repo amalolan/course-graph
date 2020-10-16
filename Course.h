@@ -1,7 +1,7 @@
 #ifndef COURSE_GRAPH_COURSE_H
 #define COURSE_GRAPH_COURSE_H
 #define COURSE_TITLE_LEN 10
-#define COURSE_NAME_LEN 30
+#define COURSE_NAME_LEN 40
 #include "LinkedList.h"
 
 typedef struct Course_struct {

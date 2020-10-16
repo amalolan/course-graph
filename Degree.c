@@ -12,7 +12,7 @@ void Degree_parseLine(Degree *degree, char *line) {
     LinkedList *courseLine = malloc(sizeof(LinkedList));
     LinkedList_init(courseLine);
     if (line[0] == 'O' && line[1] == 'R') {
-        char *str = malloc(COURSE_NAME_LEN);
+        char *str;
         line += 2;
         str = strtok(line, ",");
         while (str != NULL) {
@@ -22,7 +22,6 @@ void Degree_parseLine(Degree *degree, char *line) {
             LinkedList_push(courseLine, courseName);
             str = strtok(NULL, ",");
         }
-        free(str);
     } else {
         char *courseName = malloc(COURSE_NAME_LEN);
         strcpy(courseName, line);
