@@ -52,6 +52,7 @@ void Degree_toString(Degree *degree, char *str) {
 
 void CourseList_free(void *list) {
     LinkedList_free(list, data_free);
+    free(list);
 }
 
 void Degree_free(Degree *degree) {
