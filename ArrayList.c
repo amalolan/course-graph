@@ -34,7 +34,6 @@ void ArrayList_free(ArrayList *list, void (*data_free)(void *)) {
         data_free(list->buf[i]);
     }
     free(list->buf);
-    free(list);
 }
 
 

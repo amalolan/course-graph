@@ -21,6 +21,7 @@ void testLinkedListDouble() {
     LinkedList_print(list, double_toString);
 
     LinkedList_free(list, data_free);
+    free(list);
 }
 
 
@@ -38,6 +39,7 @@ void testLinkedListString() {
     LinkedList_delete(list, b, (int (*)(const void *, const void *)) strcmp, dont_free);
     LinkedList_print(list, string_toString);
     LinkedList_free(list, dont_free);
+    free(list);
 }
 
 void testArrayListString() {
@@ -51,6 +53,7 @@ void testArrayListString() {
 
     ArrayList_print(list, string_toString);
     ArrayList_free(list, dont_free);
+    free(list);
 }
 
 
@@ -69,6 +72,7 @@ void testArrayListDouble() {
     ArrayList_push(list, c);
     ArrayList_print(list, double_toString);
     ArrayList_free(list, data_free);
+    free(list);
 }
 
 void testDegree() {
@@ -82,5 +86,5 @@ void testDegree() {
 //    Degree_toString(d, degreeStr);
 //    printf("%s\n", degreeStr);
     Degree_free(d);
-//    free(degreeStr);
+    free(d);
 }

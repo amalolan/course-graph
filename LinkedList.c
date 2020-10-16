@@ -52,7 +52,6 @@ void LinkedList_free(LinkedList *list, void (*data_free)(void *)) {
         free(curr);
         curr = next;
     }
-    free(list);
 }
 
 void LinkedList_toString(LinkedList *list, void (*data_toString)(const void *, char*), char*str) {

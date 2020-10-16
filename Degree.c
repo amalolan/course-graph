@@ -56,4 +56,5 @@ void CourseList_free(void *list) {
 
 void Degree_free(Degree *degree) {
     LinkedList_free(degree->reqs, CourseList_free);
+    free(degree->reqs);
 }
