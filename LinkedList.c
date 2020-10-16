@@ -10,10 +10,11 @@ void LinkedList_init(LinkedList *list) {
 // Failsafe check in place
 void LinkedList_push(LinkedList *list, void *data) {
     if (list == NULL || data == NULL) return;
-    Node *node = malloc(sizeof(Node));
-    node->data = data;
-    node->next = NULL;
+
     if (list->size == 0) {
+        Node *node = malloc(sizeof(Node));
+        node->data = data;
+        node->next = NULL;
         list->head = node;
     } else {
         Node *curr = list->head;
@@ -22,6 +23,9 @@ void LinkedList_push(LinkedList *list, void *data) {
             if (curr->next->data == data) return;
             curr = curr->next;
         }
+        Node *node = malloc(sizeof(Node));
+        node->data = data;
+        node->next = NULL;
         curr->next = node;
     }
     list->size++;
