@@ -82,7 +82,7 @@ void testDegree() {
     Degree_parseLine(d, line1);
     Degree_parseLine(d, line2);
     Degree_parseLine(d, line3);
-    char *degreeStr = malloc(strlen(line1) + strlen(line2) + strlen(line3));
+    char *degreeStr = malloc(strlen(line1) + strlen(line2) + strlen(line3)+100);
     Degree_toString(d, degreeStr);
     printf("%s\n", degreeStr);
     Degree_free(d);
