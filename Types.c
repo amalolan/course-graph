@@ -12,11 +12,20 @@ int double_compare(const void *one, const void *two) {
     }
 }
 
-
 void double_toString(const void *data, char* str) {
     sprintf(str, "%f",  *(double*)data);
 }
 
+
+
 void string_toString(const void *data, char* str) {
     strcpy(str, (char*)data);
+}
+
+void data_free(void *data) {
+    free(data);
+}
+
+void dont_free(void *data) {
+
 }

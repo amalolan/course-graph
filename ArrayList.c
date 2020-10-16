@@ -17,6 +17,7 @@ void ArrayList_set(ArrayList *list, size_t index, void *data) {
     list->buf[index] = data;
 }
 
+// Don't push duplicate pointers
 void ArrayList_push(ArrayList *list, void *data) {
     if (list == NULL || data == NULL) return;
     if (list->size == list->capacity) {
@@ -26,8 +27,12 @@ void ArrayList_push(ArrayList *list, void *data) {
     ArrayList_set(list, list->size++, data);
 }
 
-void ArrayList_free(ArrayList *list) {
+
+void ArrayList_free(ArrayList *list, void (*data_free)(void *)) {
     if (list == NULL) return;
+    for (size_t i = 0; i < list->size; i++) {
+        data_free(list->buf[i]);
+    }
     free(list->buf);
 }
 

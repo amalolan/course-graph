@@ -5,5 +5,6 @@ int main() {
     testArrayListString();
     testLinkedListDouble();
     testLinkedListString();
+    testDegree();
     return 0;
 }

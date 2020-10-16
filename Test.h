@@ -4,13 +4,16 @@
 #include <stdio.h>
 #include "LinkedList.h"
 #include "ArrayList.h"
+#include "Degree.h"
 
-extern void testLinkedListString();
+void testLinkedListString();
 
-extern void testLinkedListDouble();
+void testLinkedListDouble();
 
-extern void testArrayListDouble();
+void testArrayListDouble();
 
-extern void testArrayListString();
+void testArrayListString();
+
+void testDegree();
 
 #endif //COURSE_GRAPH_TEST_H

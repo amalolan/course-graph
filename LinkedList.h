@@ -17,19 +17,19 @@ typedef struct LinkedList_struct {
     size_t size;
 } LinkedList;
 
-extern void LinkedList_init(LinkedList *list);
+void LinkedList_init(LinkedList *list);
 
-extern void LinkedList_push(LinkedList *list, void *data);
+void LinkedList_push(LinkedList *list, void *data);
 
-extern bool LinkedList_in(const LinkedList *list, const void *data, int (*compare)(const void *, const void *));
+bool LinkedList_in(const LinkedList *list, const void *data, int (*compare)(const void *, const void *));
 
-extern void LinkedList_delete(LinkedList *list, const void *data, int (*compare)(const void *, const void *));
+void LinkedList_delete(LinkedList *list, const void *data, int (*compare)(const void *, const void *));
 
-extern void LinkedList_free(LinkedList *list);
+void LinkedList_free(LinkedList *list, void (*data_free)(void *));
 
-extern void LinkedList_toString(LinkedList *list, void (*data_toString)(const void *, char *), char *);
+void LinkedList_toString(LinkedList *list, void (*data_toString)(const void *, char *), char *);
 
-extern void LinkedList_print(LinkedList *list, void (*data_toString)(const void *, char *));
+void LinkedList_print(LinkedList *list, void (*data_toString)(const void *, char *));
 
 
 #endif //COURSE_GRAPH_LINKEDLIST_H

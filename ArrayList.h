@@ -13,19 +13,19 @@ typedef struct ArrayList_struct {
     size_t size;
 } ArrayList;
 
-extern void ArrayList_init(ArrayList *list);
+void ArrayList_init(ArrayList *list);
 
-extern void *ArrayList_get(const ArrayList *list, size_t index);
+void *ArrayList_get(const ArrayList *list, size_t index);
 
-extern void ArrayList_set(ArrayList *list, size_t index, void *data);
+void ArrayList_set(ArrayList *list, size_t index, void *data);
 
-extern void ArrayList_push(ArrayList *list, void *data);
+void ArrayList_push(ArrayList *list, void *data);
 
-extern void ArrayList_free(ArrayList *list);
+void ArrayList_free(ArrayList *list, void (*data_free)(void *));
 
-extern void ArrayList_toString(ArrayList *list, void (*data_toString)(const void *, char *), char *);
+void ArrayList_toString(ArrayList *list, void (*data_toString)(const void *, char *), char *);
 
-extern void ArrayList_print(ArrayList *list, void (*data_toString)(const void *, char *));
+void ArrayList_print(ArrayList *list, void (*data_toString)(const void *, char *));
 
 
 #endif //COURSE_GRAPH_ARRAYLIST_H

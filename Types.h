@@ -3,11 +3,19 @@
 
 #include <stdio.h>
 #include "string.h"
+#include <stdlib.h>
 
-extern int double_compare(const void *one, const void *two);
 
-extern void double_toString(const void *data, char* str);
+void dont_free(void *);
 
-extern void string_toString(const void *, char* str);
+int double_compare(const void *one, const void *two);
+
+void double_toString(const void *data, char *str);
+
+void data_free(void *data);
+
+void string_toString(const void *, char *str);
+
+
 
 #endif //COURSE_GRAPH_TYPES_H
