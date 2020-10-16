@@ -15,5 +15,7 @@ void testArrayListDouble();
 void testArrayListString();
 
 void testDegree();
+void testCourse();
+void readDegree(char *filepath);
 
 #endif //COURSE_GRAPH_TEST_H

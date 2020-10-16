@@ -75,6 +75,18 @@ void testArrayListDouble() {
     free(list);
 }
 
+void testCourse() {
+    char line1[] = "";
+    Course c;
+    Course_init(&c, "CS 150", "DS and A");
+    Course_parseLine(&c, line1);
+    char *courseStr = malloc(1000);
+    Course_toString(&c, courseStr);
+    printf("%s\n", courseStr);
+    Course_free(&c);
+    free(courseStr);
+}
+
 void testDegree() {
     char line1[] = "OR CS 104, CS 105, CS 106", line2[] = "CS 150", line3[] = "OR MATH 186, MATH 286, MATH 336";
     Degree *d = malloc(sizeof(Degree));
@@ -85,6 +97,31 @@ void testDegree() {
     char *degreeStr = malloc(strlen(line1) + strlen(line2) + strlen(line3)+100);
     Degree_toString(d, degreeStr);
     printf("%s\n", degreeStr);
+    Degree_free(d);
+    free(d);
+    free(degreeStr);
+}
+
+
+void readDegree(char *input) {
+    char str[COURSE_LINE_LEN];
+    FILE* fp = fopen(input, "r");
+    fgets(str, COURSE_LINE_LEN, fp);
+    fgets(str, COURSE_LINE_LEN, fp);
+    size_t ln = strlen(str)-1;
+    if (str[ln] == '\n')
+        str[ln] = '\0';
+    Degree *d = malloc(sizeof(Degree));
+    Degree_init(d, str);
+    while (fgets(str, COURSE_LINE_LEN, fp)) {
+        ln = strlen(str)-1;
+        if (str[ln] == '\n')
+            str[ln] = '\0';
+        Degree_parseLine(d, str);
+    }
+    char *degreeStr = malloc(COURSE_LINE_LEN * 100);
+    Degree_toString(d, degreeStr);
+    printf("\n%s", degreeStr);
     Degree_free(d);
     free(d);
     free(degreeStr);

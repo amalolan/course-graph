@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="course_graph"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/Users/malolan/Documents/Code/Lafayette/CS 203/course-graph"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/Users/malolan/Documents/Code/Lafayette/CS\ 203/course-graph/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -f &quot;/Users/malolan/Documents/Code/Lafayette/CS\ 203/course-graph/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/Users/malolan/Documents/Code/Lafayette/CS\ 203/course-graph/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/Users/malolan/Documents/Code/Lafayette/CS\ 203/course-graph/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/Users/malolan/Documents/Code/Lafayette/CS 203/course-graph"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/Users/malolan/Documents/Code/Lafayette/CS\ 203/course-graph/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -f &quot;/Users/malolan/Documents/Code/Lafayette/CS\ 203/course-graph/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/Users/malolan/Documents/Code/Lafayette/CS\ 203/course-graph/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/Users/malolan/Documents/Code/Lafayette/CS\ 203/course-graph/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/Users/malolan/Documents/Code/Lafayette/CS 203/course-graph"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/Users/malolan/Documents/Code/Lafayette/CS\ 203/course-graph/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -f &quot;/Users/malolan/Documents/Code/Lafayette/CS\ 203/course-graph/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/Users/malolan/Documents/Code/Lafayette/CS\ 203/course-graph/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/Users/malolan/Documents/Code/Lafayette/CS\ 203/course-graph/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="course_graph">
+				<Option output="/Users/malolan/Documents/Code/Lafayette/CS 203/course-graph/course_graph" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/malolan/Documents/Code/Lafayette/CS 203/course-graph"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Users/malolan/Documents/Code/Lafayette/CS 203/course-graph"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/Users/malolan/Documents/Code/Lafayette/CS\ 203/course-graph/Makefile&quot;  VERBOSE=1 course_graph"/>
+					<CompileFile command="/usr/bin/make -f &quot;/Users/malolan/Documents/Code/Lafayette/CS\ 203/course-graph/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/Users/malolan/Documents/Code/Lafayette/CS\ 203/course-graph/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/Users/malolan/Documents/Code/Lafayette/CS\ 203/course-graph/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="course_graph/fast">
+				<Option output="/Users/malolan/Documents/Code/Lafayette/CS 203/course-graph/course_graph" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/malolan/Documents/Code/Lafayette/CS 203/course-graph"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Users/malolan/Documents/Code/Lafayette/CS 203/course-graph"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/Users/malolan/Documents/Code/Lafayette/CS\ 203/course-graph/Makefile&quot;  VERBOSE=1 course_graph/fast"/>
+					<CompileFile command="/usr/bin/make -f &quot;/Users/malolan/Documents/Code/Lafayette/CS\ 203/course-graph/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/Users/malolan/Documents/Code/Lafayette/CS\ 203/course-graph/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/Users/malolan/Documents/Code/Lafayette/CS\ 203/course-graph/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/Users/malolan/Documents/Code/Lafayette/CS 203/course-graph/ArrayList.c">
+			<Option target="course_graph"/>
+		</Unit>
+		<Unit filename="/Users/malolan/Documents/Code/Lafayette/CS 203/course-graph/ArrayList.h">
+			<Option target="course_graph"/>
+		</Unit>
+		<Unit filename="/Users/malolan/Documents/Code/Lafayette/CS 203/course-graph/Degree.c">
+			<Option target="course_graph"/>
+		</Unit>
+		<Unit filename="/Users/malolan/Documents/Code/Lafayette/CS 203/course-graph/Degree.h">
+			<Option target="course_graph"/>
+		</Unit>
+		<Unit filename="/Users/malolan/Documents/Code/Lafayette/CS 203/course-graph/Department.c">
+			<Option target="course_graph"/>
+		</Unit>
+		<Unit filename="/Users/malolan/Documents/Code/Lafayette/CS 203/course-graph/Department.h">
+			<Option target="course_graph"/>
+		</Unit>
+		<Unit filename="/Users/malolan/Documents/Code/Lafayette/CS 203/course-graph/LinkedList.c">
+			<Option target="course_graph"/>
+		</Unit>
+		<Unit filename="/Users/malolan/Documents/Code/Lafayette/CS 203/course-graph/LinkedList.h">
+			<Option target="course_graph"/>
+		</Unit>
+		<Unit filename="/Users/malolan/Documents/Code/Lafayette/CS 203/course-graph/Parser.c">
+			<Option target="course_graph"/>
+		</Unit>
+		<Unit filename="/Users/malolan/Documents/Code/Lafayette/CS 203/course-graph/Parser.h">
+			<Option target="course_graph"/>
+		</Unit>
+		<Unit filename="/Users/malolan/Documents/Code/Lafayette/CS 203/course-graph/Test.c">
+			<Option target="course_graph"/>
+		</Unit>
+		<Unit filename="/Users/malolan/Documents/Code/Lafayette/CS 203/course-graph/Test.h">
+			<Option target="course_graph"/>
+		</Unit>
+		<Unit filename="/Users/malolan/Documents/Code/Lafayette/CS 203/course-graph/Types.c">
+			<Option target="course_graph"/>
+		</Unit>
+		<Unit filename="/Users/malolan/Documents/Code/Lafayette/CS 203/course-graph/Types.h">
+			<Option target="course_graph"/>
+		</Unit>
+		<Unit filename="/Users/malolan/Documents/Code/Lafayette/CS 203/course-graph/main.c">
+			<Option target="course_graph"/>
+		</Unit>
+		<Unit filename="/Users/malolan/Documents/Code/Lafayette/CS 203/course-graph/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
