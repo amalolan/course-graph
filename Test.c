@@ -70,7 +70,6 @@ void testArrayListDouble() {
     ArrayList_push(list, c);
     ArrayList_print(list, double_toString);
     ArrayList_free(list, data_free);
-    free(list);
 }
 
 void testDegree() {
