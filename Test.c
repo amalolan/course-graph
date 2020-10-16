@@ -35,7 +35,7 @@ void testLinkedListString() {
         LinkedList_push(list, c);
     }
     LinkedList_print(list, string_toString);
-    LinkedList_delete(list, b, (int (*)(const void *, const void *)) strcmp);
+    LinkedList_delete(list, b, (int (*)(const void *, const void *)) strcmp, dont_free);
     LinkedList_print(list, string_toString);
     LinkedList_free(list, dont_free);
 }
