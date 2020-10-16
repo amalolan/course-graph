@@ -3,7 +3,7 @@
 int main() {
     testArrayListDouble();
     testArrayListString();
-//    testLinkedListDouble();
+    testLinkedListDouble();
 //    testLinkedListString();
 //    testDegree();
     return 0;

@@ -23,7 +23,8 @@ void LinkedList_push(LinkedList *list, void *data);
 
 bool LinkedList_in(const LinkedList *list, const void *data, int (*compare)(const void *, const void *));
 
-void LinkedList_delete(LinkedList *list, const void *data, int (*compare)(const void *, const void *));
+void LinkedList_delete(LinkedList *list, const void *data, int (*compare)(const void *, const void *), void
+(*data_free)(void *));
 
 void LinkedList_free(LinkedList *list, void (*data_free)(void *));
 

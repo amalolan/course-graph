@@ -17,7 +17,7 @@ void testLinkedListDouble() {
         LinkedList_push(list, c);
     }
     LinkedList_print(list, double_toString);
-    LinkedList_delete(list, b, double_compare);
+    LinkedList_delete(list, b, double_compare, data_free);
     LinkedList_print(list, double_toString);
 
     LinkedList_free(list, data_free);
@@ -35,7 +35,7 @@ void testLinkedListString() {
         LinkedList_push(list, c);
     }
     LinkedList_print(list, string_toString);
-    LinkedList_delete(list, b, (int(*)(const void*, const void*)) strcmp);
+    LinkedList_delete(list, b, (int (*)(const void *, const void *)) strcmp);
     LinkedList_print(list, string_toString);
     LinkedList_free(list, dont_free);
 }
@@ -52,7 +52,6 @@ void testArrayListString() {
     ArrayList_print(list, string_toString);
     ArrayList_free(list, dont_free);
 }
-
 
 
 void testArrayListDouble() {
@@ -76,9 +75,9 @@ void testDegree() {
     char line1[] = "OR CS 104, CS 105, CS 106", line2[] = "CS 150", line3[] = "OR MATH 186, MATH 286, MATH 336";
     Degree *d = malloc(sizeof(Degree));
     Degree_init(d, "BA Computer Science");
-    Degree_parseLine(d,line1);
-    Degree_parseLine(d,line2);
-    Degree_parseLine(d,line3);
+    Degree_parseLine(d, line1);
+    Degree_parseLine(d, line2);
+    Degree_parseLine(d, line3);
 //    char *degreeStr = malloc(strlen(line1) + strlen(line2) + strlen(line3));
 //    Degree_toString(d, degreeStr);
 //    printf("%s\n", degreeStr);

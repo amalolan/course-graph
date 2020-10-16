@@ -78,7 +78,8 @@ void LinkedList_print(LinkedList *list, void (*data_toString)(const void *, char
 }
 
 
-void LinkedList_delete(LinkedList *list, const void *data, int (*compare)(const void *, const void *)) {
+void LinkedList_delete(LinkedList *list, const void *data, int (*compare)(const void *, const void *), void
+(*data_free)(void *)) {
     if (list == NULL || data == NULL) return;
     Node *curr = list->head, *prev = NULL;
     while (curr != NULL) {
@@ -86,6 +87,8 @@ void LinkedList_delete(LinkedList *list, const void *data, int (*compare)(const 
             prev->next = curr->next;
             curr->next = NULL;
             list->size--;
+            data_free(curr->data);
+            free(curr);
             return;
         }
         prev = curr;
