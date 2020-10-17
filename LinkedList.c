@@ -31,16 +31,16 @@ void LinkedList_push(LinkedList *list, void *data) {
     list->size++;
 }
 
-bool LinkedList_in(const LinkedList *list, const void *data, int (*compare)(const void *, const void *)) {
+void * LinkedList_find(const LinkedList *list, const void *data, int (*compare)(const void *, const void *)) {
     if (list == NULL || data == NULL) return false;
     Node *curr = list->head;
     while (curr != NULL) {
         if (compare(curr->data, data) == 0) {
-            return true;
+            return curr->data;
         }
         curr = curr->next;
     }
-    return false;
+    return NULL;
 }
 
 void LinkedList_free(LinkedList *list, void (*data_free)(void *)) {
@@ -74,7 +74,7 @@ void LinkedList_toString(LinkedList *list, void (*data_toString)(const void *, c
 
 void LinkedList_print(LinkedList *list, void (*data_toString)(const void *, char*)) {
     if (list == NULL) return;
-    char *list_str = malloc(10000);
+    char *list_str = malloc(MAX_LINE_LENGTH * 64);
     strcpy(list_str, "");
     LinkedList_toString(list, data_toString, list_str);
     printf("%s", list_str);

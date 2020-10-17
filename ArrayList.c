@@ -39,24 +39,38 @@ void ArrayList_free(ArrayList *list, void (*data_free)(void *)) {
     list->capacity = 0;
 }
 
+int ArrayList_index(ArrayList *list, const void *data, int (*compare)(const void *, const void *)) {
+    for (size_t i = 0; i < list->size; i++) {
+        void *value = ArrayList_get(list, i);
+        if (compare(value, data) == 0) return i;
+    }
+    return -1;
+}
 
-void ArrayList_toString(ArrayList *list, void (*data_toString)(const void *, char*), char* str) {
+void *ArrayList_find(ArrayList *list, const void *data, int (*compare)(const void *, const void *)) {
+    int index = ArrayList_index(list, data, compare);
+    if (index == -1) return NULL;
+    else return ArrayList_get(list, index);
+}
+
+
+void ArrayList_toString(ArrayList *list, void (*data_toString)(const void *, char *), char *str) {
     if (list == NULL) return;
-    strcat(str, "[");
-    char *data_str = malloc(100);
+    sprintf(str, "[");
+    char *data_str = malloc(MAX_LINE_LENGTH * 64);
     for (size_t i = 0; i < list->size; i++) {
         data_toString(ArrayList_get(list, i), data_str);
         strcat(str, data_str);
         strcat(str, ",");
     }
     free(data_str);
-    str[strlen(str)-1] = 0;
+    str[strlen(str) - 1] = 0;
     strcat(str, "]\n");
 }
 
 void ArrayList_print(ArrayList *list, void (*data_toString)(const void *, char *)) {
     if (list == NULL) return;
-    char *list_str = malloc(10000);
+    char *list_str = malloc(MAX_LINE_LENGTH * 64 * 64);
     strcpy(list_str, "");
     ArrayList_toString(list, data_toString, list_str);
     printf("%s", list_str);

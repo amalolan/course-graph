@@ -7,12 +7,30 @@ void Course_init(Course *course, char *name, char *title) {
     LinkedList_init(course->prereqs);
 }
 
-void Course_parseLine(Course *course, char* line) {
-    parseCoursesLine(course->prereqs, line);
+// Initialized list and line without \n
+void Course_parseLine(LinkedList *list, char *line) {
+    if (list == NULL) return;
+    if (strlen(line) <= 2) return;
+    if (line[0] == 'O' && line[1] == 'R') {
+        char *str;
+        line += 2;
+        str = strtok(line, ",");
+        while (str != NULL) {
+            str++;
+            char *courseName = malloc(TITLE_LEN);
+            strcpy(courseName, str);
+            LinkedList_push(list, courseName);
+            str = strtok(NULL, ",");
+        }
+    } else {
+        char *courseName = malloc(TITLE_LEN);
+        strcpy(courseName, line);
+        LinkedList_push(list, courseName);
+    }
 }
 
-void Course_toString(Course *course, char* str) {
-    sprintf(str, "%s\n", course->title);
+void Course_prereqsToString(Course *course, char *str) {
+    sprintf(str, "");
     Node *curr = course->prereqs->head;
     if (course->prereqs->size > 1) {
         strcat(str, "OR ");
@@ -28,7 +46,67 @@ void Course_toString(Course *course, char* str) {
     strcat(str, "\n");
 }
 
-void Course_free(Course *course)  {
+void Course_toString(Course *course, char *str) {
+    sprintf(str, "%s\n", course->name);
+    strcat(str, course->title);
+    strcat(str, "\n");
+    char prereqsString[MAX_LINE_LENGTH];
+    Course_prereqsToString(course, prereqsString);
+    strcat(str, prereqsString);
+}
+
+int Course_compareString(const void *one, const void*two) {
+    Course *course = (Course *) one;
+    char *courseName = (char *) two;
+    return strcmp(course->name, courseName);
+}
+
+void Course_free(void *data) {
+    Course *course = (Course *) data;
     LinkedList_free(course->prereqs, data_free);
     free(course->prereqs);
+    course->prereqs = NULL;
+}
+
+void Department_init(Department *department, char *name) {
+    strcpy(department->name, name);
+    department->courses = malloc(sizeof(ArrayList));
+    ArrayList_init(department->courses);
+}
+
+void Department_addCourse(Department *department, Course *course) {
+    ArrayList_push(department->courses, course);
+}
+
+Course *Department_findCourse(Department *department, char *courseName) {
+    for (size_t i = 0; i < department->courses->size; i++) {
+        Course *course = ArrayList_get(department->courses, i);
+        if (strcmp(course->name, courseName) == 0) {
+            return course;
+        }
+    }
+    return NULL;
+}
+
+void Department_toString(const void *data, char *str) {
+    Department *department = (Department *) data;
+    sprintf(str, "department: %s\n", department->name);
+    char courseStr[MAX_LINE_LENGTH * 2];
+    for (size_t i = 0; i < department->courses->size; i++) {
+        Course *course = ArrayList_get(department->courses, i);
+        Course_toString(course, courseStr);
+        strcat(str, courseStr);
+    }
+}
+
+void Department_courseFree(void *data) {
+    Course *course = (Course *) data;
+    Course_free(data);
+    free(course);
+}
+
+void Department_free(void *data) {
+    Department *department = (Department *) data;
+    ArrayList_free(department->courses, Department_courseFree);
+    free(department->courses);
 }

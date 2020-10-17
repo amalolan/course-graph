@@ -1,9 +1,8 @@
 #ifndef COURSE_GRAPH_TYPES_H
 #define COURSE_GRAPH_TYPES_H
-#define DEGREE_NAME_LEN 30
-#define COURSE_LINE_LEN 100
-#define COURSE_TITLE_LEN 10
-#define COURSE_NAME_LEN 40
+#define MAX_LINE_LENGTH 128
+#define TITLE_LEN 64
+#define COURSE_NAME_LEN 16
 
 #include <stdio.h>
 #include "string.h"

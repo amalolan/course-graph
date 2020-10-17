@@ -5,6 +5,7 @@
 #include "LinkedList.h"
 #include "ArrayList.h"
 #include "Degree.h"
+#include "Graph.h"
 
 void testLinkedListString();
 
@@ -15,7 +16,15 @@ void testArrayListDouble();
 void testArrayListString();
 
 void testDegree();
+
 void testCourse();
-void readDegree(char *filepath);
+
+void testDepartment();
+
+void testGraphDataStructure();
+
+void testAndReadDegree(char *filepath);
+
+void tests(int argc, char **argv);
 
 #endif //COURSE_GRAPH_TEST_H

@@ -27,5 +27,8 @@ void ArrayList_toString(ArrayList *list, void (*data_toString)(const void *, cha
 
 void ArrayList_print(ArrayList *list, void (*data_toString)(const void *, char *));
 
+int ArrayList_index(ArrayList *list, const void *data, int (*compare)(const void *, const void *));
+
+void *ArrayList_find(ArrayList *list, const void *data, int (*compare)(const void *, const void *));
 
 #endif //COURSE_GRAPH_ARRAYLIST_H
