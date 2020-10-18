@@ -5,11 +5,19 @@
 #include "ArrayList.h"
 #include "Course.h"
 
+/**
+ * Departments are stored in this. Contains ArrayList of Course objects.
+ */
 typedef struct Department_struct {
     char name[TITLE_LEN];
     ArrayList *courses;
 } Department;
 
+/**
+ * Initialized the department. Needs memory to be allocated.
+ * @param department
+ * @param name
+ */
 void Department_init(Department *department, char *name);
 
 void Department_addCourse(Department *department, Course *course);

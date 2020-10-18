@@ -32,8 +32,10 @@ int Degree_compareCourseLineString(const void *one, const void *two) {
 void Degree_toString(const void *data, char *str) {
     Degree *degree = (Degree *) data;
     strcpy(str, "");
-//    sprintf(str, "degree: %s\n", degree->name);
     Node *currLine = degree->reqs->head;
+    /**
+     * each currLine is a LinkedList. The loop then looks again at each elemen.
+     */
     while (currLine != NULL) {
         Node *currCourse = ((LinkedList *) currLine->data)->head;
         if (((LinkedList *) currLine->data)->size > 1) {

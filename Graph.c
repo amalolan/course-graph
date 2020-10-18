@@ -37,10 +37,8 @@ Course *Graph_findCourse(Graph *graph, char *courseName) {
     }
     return NULL;
 }
-//    ArrayList_find(department->courses, courseName, Course_compareString);
 
 
-// needs freeing
 void Graph_findDegreesStr(Graph *graph, char *courseName, char *degrees, char* delimiter) {
     Course *course = NULL;
     strcpy(degrees, "");

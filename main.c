@@ -2,6 +2,11 @@
 #include "InputHandler.h"
 #include <stdlib.h>
 
+/**
+ * Checks for user input and goes to the switch statement for that input.
+ * Runs until x is entered
+ * @param graph the graph it uses to run on.
+ */
 void run(Graph *graph) {
     char command;
     char *line = malloc(MAX_LINE_LENGTH), *initialLine = line;
@@ -12,6 +17,9 @@ void run(Graph *graph) {
         if (command == 'x') break;
         line += 2;
         removeNewline(line);
+        /**
+         * Switches between the different commands.
+         */
         switch(command) {
             case 'c':
                 Graph_describeCourse(graph, line);
@@ -49,9 +57,13 @@ void run(Graph *graph) {
 }
 
 
-
+/**
+ * Main function called from cli
+ * @param argc Number of args
+ * @param argv Each arg as string
+ * @return 0 if no error
+ */
 int main(int argc, char *argv[]) {
-//    tests(argc, argv);
     Graph *graph = malloc(sizeof(Graph));
     Graph_init(graph);
     if (argc > 1) {
@@ -59,7 +71,6 @@ int main(int argc, char *argv[]) {
             readFile(graph, argv[i]);
         }
     }
-//    Graph_print(graph);
     run(graph);
     Graph_free(graph);
     free(graph);
