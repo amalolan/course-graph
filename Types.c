@@ -12,10 +12,15 @@ int double_compare(const void *one, const void *two) {
     }
 }
 
+int string_compare(const void *one, const void *two) {
+    char *onec = (char *) one;
+    char *twoc = (char *) two;
+    return strcmp(onec, twoc);
+}
+
 void double_toString(const void *data, char* str) {
     sprintf(str, "%f",  *(double*)data);
 }
-
 
 
 void string_toString(const void *data, char* str) {

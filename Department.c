@@ -61,6 +61,21 @@ int Course_compareString(const void *one, const void*two) {
     return strcmp(course->name, courseName);
 }
 
+int Course_compare(const void*one, const void*two) {
+    Course *courseOne = (Course *) one;
+    Course *courseTwo = (Course *) two;
+    return strcmp(courseOne->name, courseTwo->name);
+}
+
+
+//int Course_comparePrereq(const void*one, const void*two) {
+//    Course *course = (Course *) one;
+//    Course *prereq = (Course *) two;
+//    Course *foundPrereq = LinkedList_find(course->prereqs, prereq->name, string_compare);
+//    if (foundPrereq != NULL) return 0;
+//    return -1;
+//}
+
 void Course_free(void *data) {
     Course *course = (Course *) data;
     LinkedList_free(course->prereqs, data_free);
@@ -78,16 +93,6 @@ void Department_addCourse(Department *department, Course *course) {
     ArrayList_push(department->courses, course);
 }
 
-Course *Department_findCourse(Department *department, char *courseName) {
-    for (size_t i = 0; i < department->courses->size; i++) {
-        Course *course = ArrayList_get(department->courses, i);
-        if (strcmp(course->name, courseName) == 0) {
-            return course;
-        }
-    }
-    return NULL;
-}
-
 void Department_toString(const void *data, char *str) {
     Department *department = (Department *) data;
     sprintf(str, "department: %s\n", department->name);
@@ -98,6 +103,14 @@ void Department_toString(const void *data, char *str) {
         strcat(str, courseStr);
     }
 }
+
+int Department_compareString(const void *one, const void *two) {
+    Department *department = (Department *)one;
+    char * departmentName = (char *) two;
+    return strcmp(department->name, departmentName);
+}
+
+
 
 void Department_courseFree(void *data) {
     Course *course = (Course *) data;

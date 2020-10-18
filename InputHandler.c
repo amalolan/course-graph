@@ -33,11 +33,10 @@ Department *readDepartment(FILE *fp) {
     int count = 0;
     Course *course;
     while (fgets(str, MAX_LINE_LENGTH, fp)) {
+        removeNewline(str);
         if (count == 0) {  // Course name
-            removeNewline(str);
             strcpy(courseName, str);
         } else if (count == 1) { // Course title
-            removeNewline(str);
             course = malloc(sizeof(Course));
             Course_init(course, courseName, str);
         } else { // Prereqs

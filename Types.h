@@ -13,6 +13,8 @@ void dont_free(void *);
 
 int double_compare(const void *one, const void *two);
 
+int string_compare(const void *one, const void *two);
+
 void double_toString(const void *data, char *str);
 
 void data_free(void *data);

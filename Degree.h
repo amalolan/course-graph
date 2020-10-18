@@ -11,7 +11,9 @@ void Degree_init(Degree *degree, char *name);
 
 void Degree_parseLine(Degree *degree, char *line);
 
-int Degree_compareDegreeString(void *one, void*two);
+int Degree_compareString(const void *one, const void *two);
+
+int Degree_compareCourseLineString(const void *one, const void *two);
 
 void Degree_toString(const void *degree, char *str);
 

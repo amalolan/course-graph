@@ -15,4 +15,13 @@ Computers and Society
 CS 205
 Software Engineering
 CS 150
+CS 202
+Analysis of Algorithms
+CS 150
+CS 203
+Computer Organization
+CS 150
+CS 303
+Theory of Computation
+CS 203
 

@@ -16,40 +16,51 @@ void Graph_addDegree(Graph *graph, Degree *degree) {
     ArrayList_push(graph->degrees, degree);
 }
 
-Course *Graph_findCourseDepartment(Graph *graph, Department *department, char *courseName) {
-    Course *course = NULL;
-    if (department == NULL) {
-        for (size_t i = 0; i < graph->departments->size; i++) {
-            department = ArrayList_get(graph->departments, i);
-            course = ArrayList_find(department->courses, courseName, Course_compareString);
-            if (course != NULL) {
-                return course;
-            }
+Department *Graph_findDepartmentOfCourse(Graph *graph, char *courseName) {
+    for (size_t i = 0; i < graph->departments->size; i++) {
+        Department *department = ArrayList_get(graph->departments, i);
+        Course *course = ArrayList_find(department->courses, courseName, Course_compareString);
+        if (course != NULL) {
+            return department;
         }
-        department = NULL;
-        return course;
-    } else {
-        return ArrayList_find(department->courses, courseName, Course_compareString);
     }
-}
-
-Degree *Graph_findDegree(Graph *graph, char *degreeName) {
-    Degree *degree = NULL;
-    for (size_t i = 0; i < graph->degrees->size; i++) {
-        degree = ArrayList_get(graph->degrees, i);
-
-    }
-}
-
-Department *Graph_findDepartment(Graph *graph, char *departmentName);
-
-char **Graph_findDegreesStrWithCourse(Graph *graph, char *courseName) {
     return NULL;
 }
 
+Course *Graph_findCourse(Graph *graph, char *courseName) {
+    for (size_t i = 0; i < graph->departments->size; i++) {
+        Department *department = ArrayList_get(graph->departments, i);
+        Course *course = ArrayList_find(department->courses, courseName, Course_compareString);
+        if (course != NULL) {
+            return course;
+        }
+    }
+    return NULL;
+}
+//    ArrayList_find(department->courses, courseName, Course_compareString);
+
+
+// needs freeing
+void Graph_findDegreesStr(Graph *graph, char *courseName, char *degrees, char* delimiter) {
+    Course *course = NULL;
+    strcpy(degrees, "");
+    Degree *degree;
+    bool first = true;
+    for (size_t i = 0; i < graph->degrees->size; i++) {
+        degree = ArrayList_get(graph->degrees, i);
+        course = LinkedList_find(degree->reqs, courseName, Degree_compareCourseLineString);
+        if (course != NULL) {
+            if (!first) {
+                strcat(degrees, delimiter);
+            }
+            strcat(degrees, degree->name);
+            first = false;
+        }
+    }
+}
+
 void Graph_describeCourse(Graph *graph, char *courseName) {
-    Department *department = NULL;
-    Course *course = Graph_findCourseDepartment(graph, department, courseName);
+    Course *course = Graph_findCourse(graph, courseName);
     if (course == NULL) {
         printf("NOT FOUND\n");
         return;
@@ -57,12 +68,20 @@ void Graph_describeCourse(Graph *graph, char *courseName) {
     printf("%s\n", course->title);
     char line[MAX_LINE_LENGTH];
     Course_prereqsToString(course, line);
-    printf("%s\n", line);
+    printf("%s", line);
     // if course != null, print title and prereqs string
 }
 
 void Graph_describeDegree(Graph *graph, char *degreeName) {
     printf("In describe degree %s\n", degreeName);
+    Degree *degree = ArrayList_find(graph->degrees, degreeName, Degree_compareString);
+    if (degree == NULL)  {
+        printf("NOT FOUND\n");
+        return;
+    }
+    char courses[MAX_LINE_LENGTH * 64];
+    Degree_toString(degree, courses);
+    printf("%s", courses);
     // look through degrees
     // if degree 1= null, print courses
 }
@@ -71,7 +90,31 @@ void Graph_describeCourseEffect(Graph *graph, char *courseName) {
     // find course through depts
     // if it exists, for every other course check which has it as a prereq and print thtat list
     // find degrees with this course in it
-    printf("In course effect %s\n", courseName);
+    Course *course = Graph_findCourse(graph, courseName);
+    Department *department;
+    bool first = true;
+    for (size_t i = 0; i < graph->departments->size; i++) {
+        department = ArrayList_get(graph->departments, i);
+        for (size_t j = 0; j < department->courses->size; j++) {
+            Course *parent = ArrayList_get(department->courses, j);
+            Course *foundPrereq = LinkedList_find(parent->prereqs, course->name, string_compare);
+            if (foundPrereq != NULL) {
+                if (!first) {
+                    printf(", ");
+                }
+                first = false;
+                printf("%s", parent->name);
+            }
+        }
+//        Course *parent = ArrayList_find(department->courses, course, Course_comparePrereq);
+//        while (parent != NULL) {
+//
+//            parent = ArrayList_find(department->courses, course, Course_comparePrereq);
+//        }
+    }
+    char str[MAX_LINE_LENGTH * 3], delim[] = "\n";
+    Graph_findDegreesStr(graph, courseName, str, delim);
+    printf("\n%s", str);
 }
 
 void Graph_printCourse(Graph *graph, char *courseName) {
@@ -79,19 +122,37 @@ void Graph_printCourse(Graph *graph, char *courseName) {
     // if not null, print dept,
     // find degrees with this course in it
     // printt prereqs listt
-    printf("In print course %s\n", courseName);
+    Course *course = Graph_findCourse(graph, courseName);
+    if (course == NULL) {
+        printf("NOT FOUND\n");
+        return;
+    }
+    Department *department = Graph_findDepartmentOfCourse(graph, courseName);
+    printf("department: %s\n", department->name);
+    char str[MAX_LINE_LENGTH * 3], delim[] = ", ";
+    Graph_findDegreesStr(graph, courseName, str, delim);
+    printf("degree: %s\n", str);
+    Course_prereqsToString(course, str);
+    printf("pre-requisites: %s", str);
+
 }
 
 void Graph_printDegree(Graph *graph, char *degreeName) {
     // find degree through depts
     // print degree: name
     // print courses
-    printf("In print degree %s\n", degreeName);
+    Degree *degree = ArrayList_find(graph->degrees, degreeName, Degree_compareString);
+    char str[MAX_LINE_LENGTH*64];
+    Degree_toString(degree, str);
+    printf("%s", str);
 }
 
 void Graph_printDepartment(Graph *graph, char *departmentName) {
     // find department with the same name
-    printf("In print department %s\n", departmentName);
+    Department *department = ArrayList_find(graph->departments, departmentName, Department_compareString);
+    char str[MAX_LINE_LENGTH*128];
+    Department_toString(department, str);
+    printf("%s", str);
 }
 
 void Graph_print(Graph *graph) {
