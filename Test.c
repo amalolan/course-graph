@@ -16,7 +16,7 @@ void testDepartment() {
     printf("Test Department\n");
     Course *c1 = malloc(sizeof(Course)), *c2  = malloc(sizeof(Course)), * c3 = malloc(sizeof(Course)), * c4 = malloc
             (sizeof(Course));
-    char line1[] = "OR CS 104, CS 105, CS 106", line2[] = "CS 150", line3[] = "";
+    char line1[] = "OR CS 104, CS 105, CS 106", line2[] = "CS 150";
     Course_init(c1, "CS 150", "DS and A");
     Course_parseLine(c1->prereqs, line1);
     Course_init(c2, "CS 205", "Software Engineering");
