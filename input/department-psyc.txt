@@ -1,0 +1,19 @@
+DEPARTMENT
+Psychology
+PSYC 110
+Introduction to Psychological Science
+
+PSYC 120
+Quantitative Methods
+PSYC 110
+PSYC 203
+Design and Analysis 1
+PSYC 120
+PSYC 304
+Design and Analysis 2
+PSYC 203
+PSYC 395
+Advanced Research
+PSYC 203
+PSYC 490
+Capstone

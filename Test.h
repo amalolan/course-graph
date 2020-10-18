@@ -7,14 +7,6 @@
 #include "Degree.h"
 #include "Graph.h"
 
-void testLinkedListString();
-
-void testLinkedListDouble();
-
-void testArrayListDouble();
-
-void testArrayListString();
-
 void testDegree();
 
 void testCourse();

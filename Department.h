@@ -3,12 +3,7 @@
 
 #include "LinkedList.h"
 #include "ArrayList.h"
-
-typedef struct Course_struct {
-    char title[TITLE_LEN];
-    char name[COURSE_NAME_LEN];
-    LinkedList *prereqs;
-} Course;
+#include "Course.h"
 
 void Course_init(Course *course, char *title, char *name);
 
@@ -19,8 +14,6 @@ void Course_toString(Course *course, char *str);
 int Course_compareString(const void *one, const void *two);
 
 void Course_prereqsToString(Course *course, char *str);
-
-int Course_comparePrereq(const void*one, const void*two);
 
 void Course_free(void *data);
 

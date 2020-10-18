@@ -51,7 +51,7 @@ void run(Graph *graph) {
 
 
 int main(int argc, char *argv[]) {
-    tests(argc, argv);
+//    tests(argc, argv);
     Graph *graph = malloc(sizeof(Graph));
     Graph_init(graph);
     if (argc > 1) {

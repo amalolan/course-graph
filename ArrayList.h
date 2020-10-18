@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <stddef.h>
 #include <stdlib.h>
-#include "Types.h"
+#include "Util.h"
 
 typedef struct ArrayList_struct {
     void **buf;
@@ -24,8 +24,6 @@ void ArrayList_push(ArrayList *list, void *data);
 void ArrayList_free(ArrayList *list, void (*data_free)(void *));
 
 void ArrayList_toString(ArrayList *list, void (*data_toString)(const void *, char *), char *);
-
-void ArrayList_print(ArrayList *list, void (*data_toString)(const void *, char *));
 
 int ArrayList_index(ArrayList *list, const void *data, int (*compare)(const void *, const void *));
 

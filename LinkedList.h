@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <stddef.h>
 #include <stdlib.h>
-#include "Types.h"
+#include "Util.h"
 
 typedef struct Node_struct {
     void *data;
@@ -23,14 +23,8 @@ void LinkedList_push(LinkedList *list, void *data);
 
 void * LinkedList_find(const LinkedList *list, const void *data, int (*compare)(const void *, const void *));
 
-void LinkedList_delete(LinkedList *list, const void *data, int (*compare)(const void *, const void *), void
-(*data_free)(void *));
-
 void LinkedList_free(LinkedList *list, void (*data_free)(void *));
 
-void LinkedList_toString(LinkedList *list, void (*data_toString)(const void *, char *), char *);
-
-void LinkedList_print(LinkedList *list, void (*data_toString)(const void *, char *));
 
 
 #endif //COURSE_GRAPH_LINKEDLIST_H

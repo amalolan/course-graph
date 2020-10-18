@@ -1,16 +1,8 @@
 #include "InputHandler.h"
 
 
-void removeNewline(char *str) {
-    size_t ln = strlen(str)-1;
-    if (str[ln] == '\n')
-        str[ln] = '\0';
-}
-
 Degree *readDegree(FILE *fp) {
-    char str[MAX_LINE_LENGTH];
-//    FILE* fp = fopen(input, "r");
-//    fgets(str, COURSE_LINE_LEN, fp); // DEGREE
+    char str[MAX_LINE_LENGTH]; // Definition
     fgets(str, MAX_LINE_LENGTH, fp); // Degree Name
     removeNewline(str);
     Degree *degree = malloc(sizeof(Degree));
@@ -39,9 +31,9 @@ Department *readDepartment(FILE *fp) {
         } else if (count == 1) { // Course title
             course = malloc(sizeof(Course));
             Course_init(course, courseName, str);
+            Department_addCourse(department, course);
         } else { // Prereqs
             Course_parseLine(course->prereqs, str);
-            Department_addCourse(department, course);
         }
         count++;
         count = count % 3;

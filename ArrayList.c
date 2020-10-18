@@ -57,7 +57,8 @@ void *ArrayList_find(ArrayList *list, const void *data, int (*compare)(const voi
 void ArrayList_toString(ArrayList *list, void (*data_toString)(const void *, char *), char *str) {
     if (list == NULL) return;
     sprintf(str, "[");
-    char *data_str = malloc(MAX_LINE_LENGTH * 64);
+    // Might print out arraylist of all departments during debugging which can take a lot of space
+    char *data_str = malloc(LIST_LENGTH);
     for (size_t i = 0; i < list->size; i++) {
         data_toString(ArrayList_get(list, i), data_str);
         strcat(str, data_str);
@@ -66,14 +67,4 @@ void ArrayList_toString(ArrayList *list, void (*data_toString)(const void *, cha
     free(data_str);
     str[strlen(str) - 1] = 0;
     strcat(str, "]\n");
-}
-
-void ArrayList_print(ArrayList *list, void (*data_toString)(const void *, char *)) {
-    if (list == NULL) return;
-    char *list_str = malloc(MAX_LINE_LENGTH * 64 * 64);
-    strcpy(list_str, "");
-    ArrayList_toString(list, data_toString, list_str);
-    printf("%s", list_str);
-    free(list_str);
-    fflush(stdout);
 }

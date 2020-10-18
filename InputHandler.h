@@ -6,5 +6,4 @@
 Degree* readDegree(FILE *fp);
 Department* readDepartment(FILE *fp);
 void readFile(Graph *g, char *filePath);
-void removeNewline(char *str);
 #endif //COURSE_GRAPH_INPUTHANDLER_H
