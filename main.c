@@ -59,7 +59,7 @@ int main(int argc, char *argv[]) {
             readFile(graph, argv[i]);
         }
     }
-    Graph_print(graph);
+//    Graph_print(graph);
     run(graph);
     Graph_free(graph);
     free(graph);

@@ -2,6 +2,10 @@
 #define COURSE_GRAPH_DEGREE_H
 #include "Department.h"
 
+/**
+ * Represents a Degree. Contains LinkedList<LinkedList<String>> where  the 2D LinkedLists were disjuncts, 1D are the
+ * conjuncts.
+ */
 typedef struct Degree_struct {
     char name[TITLE_LEN];
     LinkedList *reqs;

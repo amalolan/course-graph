@@ -5,18 +5,6 @@
 #include "ArrayList.h"
 #include "Course.h"
 
-void Course_init(Course *course, char *title, char *name);
-
-void Course_parseLine(LinkedList *list, char *line);
-
-void Course_toString(Course *course, char *str);
-
-int Course_compareString(const void *one, const void *two);
-
-void Course_prereqsToString(Course *course, char *str);
-
-void Course_free(void *data);
-
 typedef struct Department_struct {
     char name[TITLE_LEN];
     ArrayList *courses;
