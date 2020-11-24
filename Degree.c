@@ -55,7 +55,6 @@ void Degree_findReqsDifference(Degree *degree, BinaryTree *courseStrings, Linked
         Node *currCourse = courseList->head;
         bool found = false;
         while (currCourse != NULL) {
-            // TODO: Change to Binary Tree
             if (BinaryTree_find(courseStrings, currCourse->data)) {
                 found = true;
                 break;

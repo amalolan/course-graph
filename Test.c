@@ -120,8 +120,10 @@ void testTree() {
     BinaryTree_remove(tree, a, free_data);
     BinaryTree_remove(tree, c, free_data);
     BinaryTree_remove(tree, f, free_data);
-//    BinaryTree_remove(tree, f, free_data);
-
+    f =  malloc(10);
+    strcpy(f,"f");
+    BinaryTree_remove(tree, f, free_data);
+    free(f);
 //    TreeNode *node = BinaryTree_find(tree, "g");
 //    printf("find g: %s\nleft: %s\nright: %s\n", node->data, node->left->data, node->right->data);
 
@@ -140,6 +142,7 @@ void tests(int argc, char **argv) {
     }
     testDepartment();
     testGraphDataStructure();
+    testTree();
 }
 
 void testGraph(Graph *graph) {

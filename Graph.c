@@ -249,7 +249,7 @@ void Graph_removeCourse(Graph *graph, char *line) {
     if (node == NULL) {
         printf("Course not in Department\n");
     } else {
-        BinaryTree_remove(department->courses, str, free_data);
+        BinaryTree_remove(department->courses, str, Department_courseFree);
     }
 
     // Remove from Degrees
@@ -265,7 +265,7 @@ void Graph_removeCourse(Graph *graph, char *line) {
         ArrayList_init(list);
         BinaryTree_serialize(department->courses, list);
         for (size_t j = 0; j < list->size; j++) {
-            parent = ArrayList_get(list, j); // TODO: Binary Tree
+            parent = ArrayList_get(list, j);
             LinkedList_remove(parent->prereqs, str, string_compare, free_data);
         }
         ArrayList_free(list, dont_free);
