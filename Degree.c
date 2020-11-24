@@ -29,15 +29,55 @@ int Degree_compareCourseLineString(const void *one, const void *two) {
     return -1;
 }
 
-void Degree_printReqs(Degree *degree, LinkedList *reqs, char *str) {
-    strcpy(str, "");
+void Degree_removeCourse(Degree *degree, char *courseName) {
     Node *currLine = degree->reqs->head;
+    while (currLine != NULL) {
+        LinkedList *courseList = (LinkedList *) currLine->data;
+        if (LinkedList_remove(courseList, courseName, string_compare, data_free)) {
+            if (courseList->size == 0) {
+                LinkedList_remove(degree->reqs, courseList, direct_compare, data_free);
+            }
+            return;
+        }
+        currLine = currLine->next;
+    }
+}
+
+
+void Degree_findReqsDifference(Degree *degree, ArrayList *courseStrings, LinkedList *reqs) {
+    Node *currLine = degree->reqs->head;
+    /**
+     * each currLine is a LinkedList. The loop then looks again at each element.
+     */
+    while (currLine != NULL) {
+        LinkedList *courseList = (LinkedList *) currLine->data;
+        Node *currCourse = courseList->head;
+        bool found = false;
+        while (currCourse != NULL) {
+            // TODO: Change to Binary Tree
+            if (ArrayList_find(courseStrings, currCourse->data, string_compare)) {
+                found = true;
+                break;
+            }
+            currCourse = currCourse->next;
+        }
+        if (!found) {
+            LinkedList_push(reqs, courseList);
+        }
+        currLine = currLine->next;
+    }
+}
+
+void Degree_reqsToString(LinkedList *reqs, char *str) {
+    strcpy(str, "");
+    Node *currLine = reqs->head;
     /**
      * each currLine is a LinkedList. The loop then looks again at each elemen.
      */
     while (currLine != NULL) {
-        Node *currCourse = ((LinkedList *) currLine->data)->head;
-        if (((LinkedList *) currLine->data)->size > 1) {
+        LinkedList *courseList = (LinkedList *) currLine->data;
+        Node *currCourse = courseList->head;
+        if (courseList->size > 1) {
             strcat(str, "OR ");
         }
         while (currCourse != NULL) {
@@ -45,7 +85,7 @@ void Degree_printReqs(Degree *degree, LinkedList *reqs, char *str) {
             strcat(str, ", ");
             currCourse = currCourse->next;
         }
-        if (((LinkedList *) currLine->data)->size > 0) {
+        if (courseList->size > 0) {
             str[strlen(str) - 2] = 0; // Remove extra , and space
         }
         strcat(str, "\n");
@@ -55,7 +95,7 @@ void Degree_printReqs(Degree *degree, LinkedList *reqs, char *str) {
 
 void Degree_toString(const void *data, char *str) {
     Degree *degree = (Degree *) data;
-    Degree_printReqs(degree, degree->reqs, str);
+    Degree_reqsToString(degree->reqs, str);
 }
 
 void Degree_courseListFree(void *list) {

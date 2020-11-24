@@ -124,9 +124,9 @@ void Graph_findDegreesStr(Graph *graph, char *courseName, char *degrees, char* d
             first = false;
         }
     }
-    if (graph->degrees->size > 0) {
-        degrees[strlen(degrees) - strlen(delimiter)] = 0; // Remove extra delimiter
-    }
+//    if (graph->degrees->size > 0) {
+//        degrees[strlen(degrees) - strlen(delimiter) + 1] = 0; // Remove extra delimiter
+//    }
 }
 
 void Graph_describeCourse(Graph *graph, char *courseName) {
@@ -152,10 +152,6 @@ void Graph_describeDegree(Graph *graph, char *degreeName) {
     printf("%s", courses);
 }
 
-void Graph_findDegreeReq(Graph *graph, Degree *degree, Student *student, LinkedList *reqs) {
-
-}
-
 void Graph_describeDegreeReq(Graph *graph, char *studentName) {
     Student *student = ArrayList_find(graph->students, studentName, Student_compareString);
     if (student == NULL) {
@@ -167,36 +163,141 @@ void Graph_describeDegreeReq(Graph *graph, char *studentName) {
         printf("ERROR, DEGREE NOT FOUND.\n");
         return;
     }
-    Node *currLine = degree->reqs->head;
+    LinkedList *reqs = malloc(sizeof(LinkedList));
+    LinkedList_init(reqs);
+    Degree_findReqsDifference(degree, student->courses, reqs);
+    char line[MAX_LINE_LENGTH];
+    Degree_reqsToString(reqs, line);
+    printf("%s", line);
+    LinkedList_free(reqs, dont_free);
+    free(reqs);
+}
+
+void Graph_describeNextDegreeReqs(Graph *graph, char* studentName) {
+    Student *student = ArrayList_find(graph->students, studentName, Student_compareString);
+    if (student == NULL) {
+        printf("NOT FOUND\n");
+        return;
+    }
+    Degree *degree = ArrayList_find(graph->degrees, student->degree, Degree_compareString);
+    if (degree == NULL) {
+        printf("ERROR, DEGREE NOT FOUND.\n");
+        return;
+    }
+    LinkedList *reqs = malloc(sizeof(LinkedList));
+    LinkedList_init(reqs);
+    Degree_findReqsDifference(degree, student->courses, reqs);
+
+    Node *currLine = reqs->head;
     /**
-     * each currLine is a LinkedList. The loop then looks again at each element.
+     * each currLine is a LinkedList. The loop then looks again at each elemen.
      */
     while (currLine != NULL) {
-        char str[MAX_LINE_LENGTH] = "";
-        Node *currCourse = ((LinkedList *) currLine->data)->head;
-        if (((LinkedList *) currLine->data)->size > 1) {
-            strcat(str, "OR ");
-        }
-        bool found = false;
+        LinkedList *courseList = (LinkedList *) currLine->data;
+        Node *currCourse = courseList->head;
         while (currCourse != NULL) {
-            // TODO: Change to Binary Tree
-            if (ArrayList_find(student->courses, currCourse->data, string_compare)) {
-                found = true;
-                break;
+            bool prereqMet = false;
+            Course *course = Graph_findCourse(graph, currCourse->data);
+            if (course->prereqs->size == 0) {
+                prereqMet = true;
+            } else {
+                Node *prereq = course->prereqs->head;
+                while (prereq != NULL) {
+                    if (ArrayList_find(student->courses, prereq->data, string_compare) != NULL) {
+                        prereqMet = true;
+                        break;
+                    }
+                    prereq = prereq->next;
+                }
             }
-            strcat(str, currCourse->data);
-            strcat(str, ", ");
+            if (prereqMet) {
+                printf("%s\n", course->name);
+            }
             currCourse = currCourse->next;
-        }
-        if (!found) {
-            if (((LinkedList *) currLine->data)->size > 0) {
-                str[strlen(str) - 2] = 0; // Remove extra , and space
-            }
-            printf("%s\n", str);
         }
         currLine = currLine->next;
     }
 
+
+    LinkedList_free(reqs, dont_free);
+    free(reqs);
+}
+
+void Graph_removeCourse(Graph *graph, char *line) {
+    if (line == NULL) return;
+    char *str;
+    // First, parse department
+    str = strtok(line, ",");
+    if (str == NULL) {
+        printf("ERROR REMOVING COURSE\n");
+        return;
+    }
+    Department *department = ArrayList_find(graph->departments, str, Department_compareString);
+    if (department == NULL) {
+        printf("CANNOT REMOVE COURSE. DEPARTMENT NOT FOUND\n");
+        return;
+    }
+
+    // Next, parse course name and title
+    str = strtok(NULL, ",");
+    if (str == NULL) {
+        printf("ERROR REMOVING COURSE\n");
+        return;
+    }
+    str++;
+    int index = ArrayList_index(department->courses, str, Course_compareString);
+    if (index == -1) {
+        printf("Course not in Department\n");
+    } else {
+        Course *course  = ArrayList_get(department->courses, index); // TODO: Binary Tree
+        Course_free(course);
+        free(course);
+        course = malloc(sizeof(Course));
+        Course_init(course, "DEL", "DELETED");
+        ArrayList_set(department->courses, index, course);
+    }
+    // TODO: Remove from department->courses binary tree
+
+    // Remove from Degrees
+    for (size_t i = 0; i < graph->degrees->size; i++) {
+        Degree_removeCourse(ArrayList_get(graph->degrees, i), str);
+    }
+
+    // Remove from prereqs
+    Course *parent;
+    for (size_t i = 0; i < graph->departments->size; i++) {
+        department = ArrayList_get(graph->departments, i);
+        for (size_t j = 0; j < department->courses->size; j++) {
+            parent = ArrayList_get(department->courses, j); // TODO: Binary Tree
+            LinkedList_remove(parent->prereqs, str, string_compare, data_free);
+        }
+    }
+
+}
+
+void Graph_removeCourseDegree(Graph *graph, char *line) {
+    if (line == NULL) return;
+    char *str;
+    // First, parse department
+    str = strtok(line, ",");
+    if (str == NULL) {
+        printf("ERROR REMOVING COURSE\n");
+        return;
+    }
+    Degree *degree = ArrayList_find(graph->degrees, str, Degree_compareString);
+    if (degree == NULL) {
+        printf("CANNOT REMOVE COURSE. DEGREE NOT FOUND\n");
+        return;
+    }
+
+    // Next, parse course name and title
+    str = strtok(NULL, ",");
+    if (str == NULL) {
+        printf("ERROR REMOVING COURSE\n");
+        return;
+    }
+    str++;
+    Degree_removeCourse(degree, str);
 }
 
 void Graph_describeCourseEffect(Graph *graph, char *courseName) {
@@ -230,11 +331,6 @@ void Graph_describeCourseEffect(Graph *graph, char *courseName) {
                 printf("%s", parent->name);
             }
         }
-//        Course *parent = ArrayList_find(department->courses, course, Course_comparePrereq);
-//        while (parent != NULL) {
-//
-//            parent = ArrayList_find(department->courses, course, Course_comparePrereq);
-//        }
     }
     if (first == true) printf("No courses have %s as a pre-requisite", courseName);
     // Many courses could have it as prereq

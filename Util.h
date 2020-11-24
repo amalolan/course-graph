@@ -22,11 +22,14 @@ void removeNewline(char *str);
  */
 int string_compare(const void *one, const void *two);
 
+int direct_compare(const  void *one, const void *two);
+
 /**
  * Wrapper for a call to free(data)
  * @param data allocated data to free.
  */
 void data_free(void *data);
 
+void dont_free(void *data);
 
 #endif //COURSE_GRAPH_UTIL_H

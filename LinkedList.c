@@ -32,7 +32,7 @@ void LinkedList_push(LinkedList *list, void *data) {
 }
 
 void * LinkedList_find(const LinkedList *list, const void *data, int (*compare)(const void *, const void *)) {
-    if (list == NULL || data == NULL) return false;
+    if (list == NULL || data == NULL) return NULL;
     Node *curr = list->head;
     while (curr != NULL) {
         if (compare(curr->data, data) == 0) {
@@ -42,6 +42,29 @@ void * LinkedList_find(const LinkedList *list, const void *data, int (*compare)(
     }
     return NULL;
 }
+
+bool LinkedList_remove(LinkedList *list, const void *data, int (*compare)(const void *, const void *),
+                         void (*data_free)(void *)) {
+    if (list == NULL || data == NULL) return false;
+    Node *curr = list->head, *prev = NULL;
+    while (curr != NULL) {
+        if (compare(curr->data, data) == 0) {
+            if (prev == NULL) {
+                list->head = curr->next;
+            } else {
+                prev->next = curr->next;
+            }
+            list->size--;
+            data_free(curr->data);
+            free(curr);
+            return true;
+        }
+        prev = curr;
+        curr = curr->next;
+    }
+    return false;
+}
+
 
 void LinkedList_free(LinkedList *list, void (*data_free)(void *)) {
     if (list == NULL) return;

@@ -36,6 +36,15 @@ void run(Graph *graph) {
             case 'm':
                 Graph_describeDegreeReq(graph, line);
                 break;
+            case 'n':
+                Graph_describeNextDegreeReqs(graph, line);
+                break;
+            case 'q':
+                Graph_removeCourseDegree(graph, line);
+                break;
+            case 'r':
+                Graph_removeCourse(graph, line);
+                break;
             case 'p':
                 command = line[0];
                 line += 2;
@@ -80,7 +89,8 @@ int main(int argc, char *argv[]) {
             readFile(graph, argv[i]);
         }
     }
-    run(graph);
+//    run(graph);
+    testGraph(graph);
     Graph_free(graph);
     free(graph);
     return 0;

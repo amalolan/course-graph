@@ -98,3 +98,120 @@ void tests(int argc, char **argv) {
     testDepartment();
     testGraphDataStructure();
 }
+
+void testGraph(Graph *graph) {
+
+    printf("\n%s\n", "Testing c");
+    // c
+    printf("%s\n", "c CS 150");
+    Graph_describeCourse(graph, "CS 150");
+    printf("%s\n", "c CS 404");
+    Graph_describeCourse(graph, "CS 404");
+
+
+    printf("\n%s\n", "Testing d");
+    // d
+    printf("%s\n", "d BS Computer Science");
+    Graph_describeDegree(graph, "BS Computer Science");
+    printf("%s\n", "d Random Degree");
+    Graph_describeDegree(graph, "Random Degree");
+
+
+    printf("\n%s\n", "Testing s");
+    // s
+    printf("%s\n", "s CS 150");
+    Graph_describeCourseEffect(graph, "CS 150");
+    printf("%s\n", "s CS 205");
+    Graph_describeCourseEffect(graph, "CS 205");
+    printf("%s\n", "s CS 404");
+    Graph_describeCourseEffect(graph, "CS 404");
+
+    printf("\n%s\n", "Testing p");
+    // p
+    printf("%s\n", "p c CS 150");
+    Graph_printCourse(graph, "CS 150");
+    printf("%s\n", "p c CS 404");
+    Graph_printCourse(graph, "CS 404");
+    printf("%s\n", "p g AB Computer Science");
+    Graph_printDegree(graph, "AB Computer Science");
+    printf("%s\n", "p g Random Degree");
+    Graph_printDegree(graph, "Random Degree");
+    printf("%s\n", "p d Computer Science");
+    Graph_printDepartment(graph, "Computer Science");
+    printf("%s\n", "p d Random Department");
+    Graph_printDepartment(graph, "Random Department");
+    printf("%s\n", "p s Alicia Hunter");
+    Graph_printStudent(graph, "Alicia Hunter");
+    printf("%s\n", "p s Random Name");
+    Graph_printStudent(graph, "Random Name");
+
+
+    printf("\n%s\n", "Testing a");
+    //a
+    char str[MAX_LINE_LENGTH] = "Computer Science, CS 206, Systems Software, CS 202, CS 203";
+    printf("a %s\n", str);
+    Graph_addCourse(graph, str);
+    strcpy(str, "Computer Science, CS 320, Databases, OR CS 202, CS 205");
+    printf("a %s\n", str);
+    Graph_addCourse(graph, str);
+    // Invalid prereqs are accepted
+
+    printf("%s\n", "p d Computer Science");
+    Graph_printDepartment(graph, "Computer Science");
+
+    printf("\n%s\n", "Testing m");
+    //m
+    printf("%s\n", "m Alicia Hunter");
+    Graph_describeDegreeReq(graph, "Alicia Hunter");
+    printf("%s\n", "m Random Name");
+    Graph_describeDegreeReq(graph, "Random Name");
+
+
+    printf("\n%s\n", "Testing n");
+    //n
+    printf("%s\n", "n Alicia Hunter");
+    Graph_describeNextDegreeReqs(graph, "Alicia Hunter");
+    printf("%s\n", "n Random Name");
+    Graph_describeNextDegreeReqs(graph, "Random Name");
+
+
+    printf("\n%s\n", "Testing q");
+    //q
+    strcpy(str, "BS Computer Science, CS 105");
+    printf("q %s\n", str);
+    Graph_removeCourseDegree(graph, str);
+    strcpy(str, "BS Computer Science, MATH 162");
+    printf("q %s\n", str);
+    Graph_removeCourseDegree(graph, str);
+    strcpy(str, "AB Computer Science, MATH 182");
+    printf("q %s\n", str);
+    Graph_removeCourseDegree(graph, str);
+    strcpy(str, "BS Computer Science, CS 404");
+    printf("q %s\n", str);
+    Graph_removeCourseDegree(graph, str);
+
+    printf("\n%s\n", "Testing r");
+    //r
+    strcpy(str, "Computer Science, CS 150");
+    printf("r %s\n", str);
+    Graph_removeCourse(graph, str);
+    strcpy(str, "Computer Science, CS 404");
+    printf("r %s\n", str);
+    Graph_removeCourse(graph, str);
+
+    // Prints to ensure deletion was done correctly.
+    printf("%s\n", "p c CS 150");
+    Graph_printCourse(graph, "CS 150");
+    printf("%s\n", "p d Computer Science");
+    Graph_printDepartment(graph, "Computer Science");
+    printf("%s\n", "p g BS Computer Science");
+    Graph_printDegree(graph, "BS Computer Science");
+    printf("%s\n", "p g AB Computer Science");
+    Graph_printDegree(graph, "AB Computer Science");
+    printf("%s\n", "p c CS 203");
+    Graph_printCourse(graph, "CS 203");
+    printf("%s\n", "s CS 104");
+    Graph_describeCourseEffect(graph, "CS 104");
+    printf("%s\n", "m Alicia Hunter");
+    Graph_describeDegreeReq(graph, "Alicia Hunter");
+}

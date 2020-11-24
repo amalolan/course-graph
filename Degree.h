@@ -41,8 +41,11 @@ int Degree_compareString(const void *one, const void *two);
  */
 int Degree_compareCourseLineString(const void *one, const void *two);
 
+void Degree_findReqsDifference(Degree *degree, ArrayList *courseStrings, LinkedList *reqs);
 
-void Degree_printReqs(Degree *degree, LinkedList *reqs, char *str);
+void Degree_reqsToString(LinkedList *reqs, char *str);
+
+void Degree_removeCourse(Degree *degree, char *courseName);
 /**
  * String representation of degree
  * @param degree  intialized degree

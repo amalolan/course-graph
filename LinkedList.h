@@ -54,5 +54,8 @@ void * LinkedList_find(const LinkedList *list, const void *data, int (*compare)(
 void LinkedList_free(LinkedList *list, void (*data_free)(void *));
 
 
+bool LinkedList_remove(LinkedList *list, const void *data, int (*compare)(const void *, const void *),
+                       void (*data_free)(void *));
+
 
 #endif //COURSE_GRAPH_LINKEDLIST_H

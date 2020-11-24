@@ -39,9 +39,13 @@ void Graph_addStudent(Graph *graph, Student *student);
 
 void Graph_addCourse(Graph *graph, char *line);
 
-void Graph_findDegreeReq(Graph *graph, Degree *degree, Student *student, LinkedList *reqs);
-
 void Graph_describeDegreeReq(Graph *graph, char *studentName);
+
+void Graph_describeNextDegreeReqs(Graph *graph, char* studentName);
+
+void Graph_removeCourse(Graph *graph, char *line);
+
+void Graph_removeCourseDegree(Graph *graph, char *line);
 /**
  * Finds the course then returns the department it is under.
  * @param graph The graph to look in

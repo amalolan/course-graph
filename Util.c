@@ -10,6 +10,14 @@ void data_free(void *data) {
     free(data);
 }
 
+void dont_free(void *data) {
+    return;
+}
+
+int direct_compare(const  void *one, const void *two) {
+    return one != two;
+}
+
 
 void removeNewline(char *str) {
     size_t ln = strlen(str)-1;
