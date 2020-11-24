@@ -11,7 +11,7 @@ void Degree_init(Degree *degree, char *name) {
 void Degree_parseLine(Degree *degree, char *line) {
     LinkedList *courseLine = malloc(sizeof(LinkedList));
     LinkedList_init(courseLine);
-    Course_parseLine(courseLine, line);
+    Course_parsePrereqsLine(courseLine, line);
     LinkedList_push(degree->reqs, courseLine);
 }
 
@@ -29,8 +29,7 @@ int Degree_compareCourseLineString(const void *one, const void *two) {
     return -1;
 }
 
-void Degree_toString(const void *data, char *str) {
-    Degree *degree = (Degree *) data;
+void Degree_printReqs(Degree *degree, LinkedList *reqs, char *str) {
     strcpy(str, "");
     Node *currLine = degree->reqs->head;
     /**
@@ -54,6 +53,11 @@ void Degree_toString(const void *data, char *str) {
     }
 }
 
+void Degree_toString(const void *data, char *str) {
+    Degree *degree = (Degree *) data;
+    Degree_printReqs(degree, degree->reqs, str);
+}
+
 void Degree_courseListFree(void *list) {
     LinkedList_free(list, data_free);
     free(list);
@@ -63,4 +67,5 @@ void Degree_free(void *data) {
     Degree *degree = (Degree *)data;
     LinkedList_free(degree->reqs, Degree_courseListFree);
     free(degree->reqs);
+    degree->reqs = NULL;
 }

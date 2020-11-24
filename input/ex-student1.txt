@@ -1,0 +1,8 @@
+STUDENT
+Alicia Hunter
+BS Computer Science
+CS 104
+CS 150
+MATH 182
+CS 202
+CS 205

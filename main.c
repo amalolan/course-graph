@@ -30,6 +30,12 @@ void run(Graph *graph) {
             case 's':
                 Graph_describeCourseEffect(graph, line);
                 break;
+            case 'a':
+                Graph_addCourse(graph, line);
+                break;
+            case 'm':
+                Graph_describeDegreeReq(graph, line);
+                break;
             case 'p':
                 command = line[0];
                 line += 2;
@@ -42,6 +48,9 @@ void run(Graph *graph) {
                         break;
                     case 'g':
                         Graph_printDegree(graph, line);
+                        break;
+                    case 's':
+                        Graph_printStudent(graph, line);
                         break;
                     default:
                         printf("Invalid Input. Please try again\n");

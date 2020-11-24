@@ -27,7 +27,7 @@ void Course_init(Course *course, char *title, char *name);
  * @param list Initialized list
  * @param line Line of prereqs starting without whitespace and without \n at the end
  */
-void Course_parseLine(LinkedList *list, char *line);
+void Course_parsePrereqsLine(LinkedList *list, char *line);
 
 /**
  * Provides string representation of Course

@@ -17,6 +17,8 @@ Degree* readDegree(FILE *fp);
  */
 Department* readDepartment(FILE *fp);
 
+Student* readStudent(FILE *fp);
+
 /**
  * Reads any file. Calls its respective read function
  * @param g The graph being used to store everything

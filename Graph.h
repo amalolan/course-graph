@@ -3,7 +3,7 @@
 
 #include "Department.h"
 #include "Degree.h"
-
+#include "Student.h"
 
 /**
  * Graph stores all the departments and degrees.
@@ -12,6 +12,7 @@
 typedef struct Graph_struct {
     ArrayList *departments;
     ArrayList *degrees;
+    ArrayList *students;
 } Graph;
 
 /**
@@ -34,6 +35,13 @@ void Graph_addDepartment(Graph *graph, Department *department);
  */
 void Graph_addDegree(Graph *graph, Degree *degree);
 
+void Graph_addStudent(Graph *graph, Student *student);
+
+void Graph_addCourse(Graph *graph, char *line);
+
+void Graph_findDegreeReq(Graph *graph, Degree *degree, Student *student, LinkedList *reqs);
+
+void Graph_describeDegreeReq(Graph *graph, char *studentName);
 /**
  * Finds the course then returns the department it is under.
  * @param graph The graph to look in
@@ -101,6 +109,8 @@ void Graph_printDegree(Graph *graph, char *degreeName);
  */
 void Graph_printDepartment(Graph *graph, char *departmentName);
 
+void Graph_printStudent(Graph* graph, char *studentName);
+
 /**
  * Wrapper to free degrees
  * @param data Degree to free and destruct
@@ -119,6 +129,8 @@ void Graph_print(Graph *graph);
  */
 void Graph_departmentFree(void *data);
 
+
+void Graph_studentFree(void *data);
 /**
  * Destructs the graph and its elements
  * @param graph Graph to destruct

@@ -3,8 +3,10 @@
 void Graph_init(Graph *graph) {
     graph->degrees = malloc(sizeof(ArrayList));
     graph->departments = malloc(sizeof(ArrayList));
+    graph->students = malloc(sizeof(ArrayList));
     ArrayList_init(graph->degrees);
     ArrayList_init(graph->departments);
+    ArrayList_init(graph->students);
 }
 
 void Graph_addDepartment(Graph *graph, Department *department) {
@@ -14,6 +16,67 @@ void Graph_addDepartment(Graph *graph, Department *department) {
 
 void Graph_addDegree(Graph *graph, Degree *degree) {
     ArrayList_push(graph->degrees, degree);
+}
+
+void Graph_addStudent(Graph *graph, Student *student) {
+    ArrayList_push(graph->students, student);
+}
+
+// no \n
+void Graph_addCourse(Graph *graph, char *line) {
+    if (line == NULL) return;
+    char *str;
+    char courseName[COURSE_NAME_LEN];
+    // First, parse department
+    str = strtok(line, ",");
+    if (str == NULL) {
+        printf("ERROR ADDING COURSE\n");
+        return;
+    }
+    Department *department = ArrayList_find(graph->departments, str, Department_compareString);
+    if (department == NULL) {
+        printf("CANNOT ADD COURSE. DEPARTMENT NOT FOUND\n");
+        return;
+    }
+
+    // Next, parse course name and title
+    str = strtok(NULL, ",");
+    if (str == NULL) {
+        printf("ERROR ADDING COURSE\n");
+        return;
+    }
+    str++;
+    strcpy(courseName, str);
+
+    str = strtok(NULL, ",");
+    if (str == NULL) {
+        printf("ERROR ADDING COURSE\n");
+        return;
+    }
+    str++;
+    Course *course = malloc(sizeof(Course));
+    Course_init(course, courseName, str);
+    Department_addCourse(department, course);
+
+    // Finally, parse prereqs
+    str = strtok(NULL, ",");
+    bool disjunct = false;
+    while (str != NULL) {
+        str++;
+        if (strlen(str) < 2) {
+            printf("ERROR ADDING COURSE\n");
+            return;
+        }
+        if (str[0] == 'O' && str[1] == 'R') {
+            str += 3;
+            disjunct = true;
+        }
+        char *prereqName = malloc(COURSE_NAME_LEN);
+        strcpy(prereqName, str);
+        LinkedList_push(course->prereqs, prereqName);
+        str = strtok(NULL, ",");
+        if (! disjunct) break;
+    }
 }
 
 Department *Graph_findDepartmentOfCourse(Graph *graph, char *courseName) {
@@ -44,8 +107,14 @@ void Graph_findDegreesStr(Graph *graph, char *courseName, char *degrees, char* d
     strcpy(degrees, "");
     Degree *degree;
     bool first = true;
+    /**
+     * Go through every degree and check if course in any list.
+     */
     for (size_t i = 0; i < graph->degrees->size; i++) {
         degree = ArrayList_get(graph->degrees, i);
+        /**
+         * Use special comparator to make life easy.
+         */
         course = LinkedList_find(degree->reqs, courseName, Degree_compareCourseLineString);
         if (course != NULL) {
             if (!first) {
@@ -54,6 +123,9 @@ void Graph_findDegreesStr(Graph *graph, char *courseName, char *degrees, char* d
             strcat(degrees, degree->name);
             first = false;
         }
+    }
+    if (graph->degrees->size > 0) {
+        degrees[strlen(degrees) - strlen(delimiter)] = 0; // Remove extra delimiter
     }
 }
 
@@ -67,7 +139,6 @@ void Graph_describeCourse(Graph *graph, char *courseName) {
     char line[MAX_LINE_LENGTH];
     Course_prereqsToString(course, line);
     printf("%s", line);
-    // if course != null, print title and prereqs string
 }
 
 void Graph_describeDegree(Graph *graph, char *degreeName) {
@@ -79,8 +150,53 @@ void Graph_describeDegree(Graph *graph, char *degreeName) {
     char courses[LIST_LENGTH]; // List of Max line lengths
     Degree_toString(degree, courses);
     printf("%s", courses);
-    // look through degrees
-    // if degree 1= null, print courses
+}
+
+void Graph_findDegreeReq(Graph *graph, Degree *degree, Student *student, LinkedList *reqs) {
+
+}
+
+void Graph_describeDegreeReq(Graph *graph, char *studentName) {
+    Student *student = ArrayList_find(graph->students, studentName, Student_compareString);
+    if (student == NULL) {
+        printf("NOT FOUND\n");
+        return;
+    }
+    Degree *degree = ArrayList_find(graph->degrees, student->degree, Degree_compareString);
+    if (degree == NULL) {
+        printf("ERROR, DEGREE NOT FOUND.\n");
+        return;
+    }
+    Node *currLine = degree->reqs->head;
+    /**
+     * each currLine is a LinkedList. The loop then looks again at each element.
+     */
+    while (currLine != NULL) {
+        char str[MAX_LINE_LENGTH] = "";
+        Node *currCourse = ((LinkedList *) currLine->data)->head;
+        if (((LinkedList *) currLine->data)->size > 1) {
+            strcat(str, "OR ");
+        }
+        bool found = false;
+        while (currCourse != NULL) {
+            // TODO: Change to Binary Tree
+            if (ArrayList_find(student->courses, currCourse->data, string_compare)) {
+                found = true;
+                break;
+            }
+            strcat(str, currCourse->data);
+            strcat(str, ", ");
+            currCourse = currCourse->next;
+        }
+        if (!found) {
+            if (((LinkedList *) currLine->data)->size > 0) {
+                str[strlen(str) - 2] = 0; // Remove extra , and space
+            }
+            printf("%s\n", str);
+        }
+        currLine = currLine->next;
+    }
+
 }
 
 void Graph_describeCourseEffect(Graph *graph, char *courseName) {
@@ -94,14 +210,21 @@ void Graph_describeCourseEffect(Graph *graph, char *courseName) {
     }
     Department *department;
     bool first = true;
+    /**
+     * Go through every department.
+     */
     for (size_t i = 0; i < graph->departments->size; i++) {
         department = ArrayList_get(graph->departments, i);
+        /**
+         * Go through every course and check if this is a prereq for any of them.
+         * Use special compator to check, and print it if it is.
+         */
         for (size_t j = 0; j < department->courses->size; j++) {
             Course *parent = ArrayList_get(department->courses, j);
             Course *foundPrereq = LinkedList_find(parent->prereqs, course->name, string_compare);
             if (foundPrereq != NULL) {
                 if (!first) {
-                    printf(", ");
+                    printf(", "); // Ensures proper delim placement.
                 }
                 first = false;
                 printf("%s", parent->name);
@@ -167,6 +290,17 @@ void Graph_printDepartment(Graph *graph, char *departmentName) {
     printf("%s", str);
 }
 
+void Graph_printStudent(Graph* graph, char *studentName) {
+    Student *student = ArrayList_find(graph->students, studentName, Student_compareString);
+    if (student == NULL) {
+        printf("NOT FOUND\n");
+        return;
+    }
+    char str[LIST_LENGTH];
+    Student_toString(student, str);
+    printf("%s", str);
+}
+
 void Graph_print(Graph *graph) {
     printf("Printing Graph.\n");
     char *str = malloc(32 * LIST_LENGTH); // Debugging, can include every file read 256KB
@@ -176,20 +310,31 @@ void Graph_print(Graph *graph) {
     ArrayList_toString(graph->degrees, Degree_toString, str);
     printf("Degrees.\n");
     printf("%s", str);
+    ArrayList_toString(graph->students, Student_toString, str);
+    printf("Students.\n");
+    printf("%s", str);
     free(str);
 }
 
 void Graph_free(Graph *graph) {
     ArrayList_free(graph->departments, Graph_departmentFree);
     ArrayList_free(graph->degrees, Graph_degreeFree);
+    ArrayList_free(graph->students, Graph_studentFree);
     free(graph->departments);
     free(graph->degrees);
+    free(graph->students);
+    graph->students = NULL;
     graph->degrees = NULL;
     graph->departments = NULL;
 }
 
 void Graph_departmentFree(void *data) {
     Department_free(data);
+    free(data);
+}
+
+void Graph_studentFree(void *data) {
+    Student_free(data);
     free(data);
 }
 

@@ -9,7 +9,7 @@ void Course_init(Course *course, char *name, char *title) {
 }
 
 // Initialized list and line without \n
-void Course_parseLine(LinkedList *list, char *line) {
+void Course_parsePrereqsLine(LinkedList *list, char *line) {
     if (list == NULL) return;
     if (strlen(line) <= 2) return;
     if (line[0] == 'O' && line[1] == 'R') {

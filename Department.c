@@ -39,4 +39,5 @@ void Department_free(void *data) {
     Department *department = (Department *) data;
     ArrayList_free(department->courses, Department_courseFree);
     free(department->courses);
+    department->courses = NULL;
 }

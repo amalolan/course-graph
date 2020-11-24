@@ -15,7 +15,7 @@ Degree.o: Degree.h Degree.c
 
 Department.o: Department.h Department.c
 	gcc -Wall -g -c Department.c
-	
+
 InputHandler.o: InputHandler.h InputHandler.c
 	gcc -Wall -g -c InputHandler.c  
 Graph.o: Graph.h Graph.c

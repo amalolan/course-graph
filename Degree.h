@@ -41,6 +41,8 @@ int Degree_compareString(const void *one, const void *two);
  */
 int Degree_compareCourseLineString(const void *one, const void *two);
 
+
+void Degree_printReqs(Degree *degree, LinkedList *reqs, char *str);
 /**
  * String representation of degree
  * @param degree  intialized degree
