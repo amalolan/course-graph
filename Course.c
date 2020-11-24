@@ -62,11 +62,15 @@ int Course_compareString(const void *one, const void*two) {
     return strcmp(course->name, courseName);
 }
 
-
+int Course_compareCourse(const void *one, const void*two) {
+    Course *courseOne = (Course *) one;
+    Course *courseTwo = (Course *) two;
+    return strcmp(courseOne->name, courseTwo->name);
+}
 
 void Course_free(void *data) {
     Course *course = (Course *) data;
-    LinkedList_free(course->prereqs, data_free);
+    LinkedList_free(course->prereqs, free_data);
     free(course->prereqs);
     course->prereqs = NULL;
 }
