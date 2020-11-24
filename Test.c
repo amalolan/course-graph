@@ -124,9 +124,7 @@ void testTree() {
     strcpy(f,"f");
     BinaryTree_remove(tree, f, free_data);
     free(f);
-//    TreeNode *node = BinaryTree_find(tree, "g");
-//    printf("find g: %s\nleft: %s\nright: %s\n", node->data, node->left->data, node->right->data);
-
+//    char *data = BinaryTree_find(tree, "g");
     BinaryTree_toString(tree, string_toString, line);
     printf("%s\n", line);
 

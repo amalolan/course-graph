@@ -93,9 +93,9 @@ Department *Graph_findDepartmentOfCourse(Graph *graph, char *courseName) {
 Course *Graph_findCourse(Graph *graph, char *courseName) {
     for (size_t i = 0; i < graph->departments->size; i++) {
         Department *department = ArrayList_get(graph->departments, i);
-        TreeNode *node = BinaryTree_find(department->courses, courseName);
-        if (node != NULL) {
-            return node->data;
+        Course *course = BinaryTree_find(department->courses, courseName);
+        if (course != NULL) {
+            return course;
         }
     }
     return NULL;
@@ -115,7 +115,7 @@ void Graph_findDegreesStr(Graph *graph, char *courseName, char *degrees, char* d
         /**
          * Use special comparator to make life easy.
          */
-        course = LinkedList_find(degree->reqs, courseName, Degree_compareCourseLineString);
+        course = LinkedList_find(degree->reqs->ands, courseName, Degree_compareCourseLineString);
         if (course != NULL) {
             if (!first) {
                 strcat(degrees, delimiter);
@@ -163,14 +163,14 @@ void Graph_describeDegreeReq(Graph *graph, char *studentName) {
         printf("ERROR, DEGREE NOT FOUND.\n");
         return;
     }
-    LinkedList *reqs = malloc(sizeof(LinkedList));
-    LinkedList_init(reqs);
-    Degree_findReqsDifference(degree, student->courses, reqs);
-    char line[MAX_LINE_LENGTH];
-    Degree_reqsToString(reqs, line);
+    Requirements *remaining = malloc(sizeof(Requirements));
+    Requirements_init(remaining);
+    Requirements_findDifference(degree->reqs, student->courses, remaining);
+    char line[MAX_LINE_LENGTH], delim[] = "\n";
+    Requirements_toString(remaining, line, delim);
     printf("%s", line);
-    LinkedList_free(reqs, dont_free);
-    free(reqs);
+    Requirements_free(remaining, dont_free);
+    free(remaining);
 }
 
 void Graph_describeNextDegreeReqs(Graph *graph, char* studentName) {
@@ -184,43 +184,37 @@ void Graph_describeNextDegreeReqs(Graph *graph, char* studentName) {
         printf("ERROR, DEGREE NOT FOUND.\n");
         return;
     }
-    LinkedList *reqs = malloc(sizeof(LinkedList));
-    LinkedList_init(reqs);
-    Degree_findReqsDifference(degree, student->courses, reqs);
-
-    Node *currLine = reqs->head;
+    Requirements *remaining = malloc(sizeof(Requirements));
+    Requirements_init(remaining);
+    Requirements_findDifference(degree->reqs, student->courses, remaining);
     /**
      * each currLine is a LinkedList. The loop then looks again at each elemen.
      */
-    while (currLine != NULL) {
-        LinkedList *courseList = (LinkedList *) currLine->data;
-        Node *currCourse = courseList->head;
-        while (currCourse != NULL) {
-            bool prereqMet = false;
-            Course *course = Graph_findCourse(graph, currCourse->data);
-            if (course->prereqs->size == 0) {
-                prereqMet = true;
-            } else {
-                Node *prereq = course->prereqs->head;
-                while (prereq != NULL) {
-                    if (BinaryTree_find(student->courses, prereq->data) != NULL) {
-                        prereqMet = true;
-                        break;
-                    }
-                    prereq = prereq->next;
-                }
-            }
-            if (prereqMet) {
-                printf("%s\n", course->name);
-            }
-            currCourse = currCourse->next;
-        }
-        currLine = currLine->next;
-    }
+     for (Node *currLine = remaining->ands->head; currLine != NULL;currLine = currLine->next) {
+         LinkedList *courseList = (LinkedList *) currLine->data;
+         for (Node *currCourse = courseList->head; currCourse != NULL; currCourse = currCourse->next) {
+             bool prereqMet = false;
+             Course *course = Graph_findCourse(graph, currCourse->data);
+             if (course->prereqs->size == 0) {
+                 prereqMet = true;
+             } else {
+                 Node *prereq = course->prereqs->head;
+                 while (prereq != NULL) {
+                     if (BinaryTree_find(student->courses, prereq->data) != NULL) {
+                         prereqMet = true;
+                         break;
+                     }
+                     prereq = prereq->next;
+                 }
+             }
+             if (prereqMet) {
+                 printf("%s\n", course->name);
+             }
+         }
+     }
 
-
-    LinkedList_free(reqs, dont_free);
-    free(reqs);
+    Requirements_free(remaining, dont_free);
+    free(remaining);
 }
 
 void Graph_removeCourse(Graph *graph, char *line) {
@@ -245,8 +239,8 @@ void Graph_removeCourse(Graph *graph, char *line) {
         return;
     }
     str++;
-    TreeNode *node = BinaryTree_find(department->courses, str);
-    if (node == NULL) {
+    Course *course = BinaryTree_find(department->courses, str);
+    if (course == NULL) {
         printf("Course not in Department\n");
     } else {
         BinaryTree_remove(department->courses, str, Department_courseFree);
@@ -324,6 +318,7 @@ void Graph_describeCourseEffect(Graph *graph, char *courseName) {
         BinaryTree_serialize(department->courses, list);
         for (size_t j = 0; j < list->size; j++) {
             Course *parent = ArrayList_get(list, j);
+            // TODO
             Course *foundPrereq = LinkedList_find(parent->prereqs, course->name, string_compare);
             if (foundPrereq != NULL) {
                 if (!first) {
@@ -344,10 +339,6 @@ void Graph_describeCourseEffect(Graph *graph, char *courseName) {
 }
 
 void Graph_printCourse(Graph *graph, char *courseName) {
-    // find course through depts
-    // if not null, print dept,
-    // find degrees with this course in it
-    // printt prereqs listt
     Course *course = Graph_findCourse(graph, courseName);
     if (course == NULL) {
         printf("NOT FOUND\n");
@@ -365,9 +356,6 @@ void Graph_printCourse(Graph *graph, char *courseName) {
 }
 
 void Graph_printDegree(Graph *graph, char *degreeName) {
-    // find degree through depts
-    // print degree: name
-    // print courses
     Degree *degree = ArrayList_find(graph->degrees, degreeName, Degree_compareString);
     if (degree == NULL) {
         printf("NOT FOUND\n");
@@ -379,7 +367,6 @@ void Graph_printDegree(Graph *graph, char *degreeName) {
 }
 
 void Graph_printDepartment(Graph *graph, char *departmentName) {
-    // find department with the same name
     Department *department = ArrayList_find(graph->departments, departmentName, Department_compareString);
     if (department == NULL) {
         printf("NOT FOUND\n");

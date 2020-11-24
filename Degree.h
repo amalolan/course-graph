@@ -2,6 +2,7 @@
 #define COURSE_GRAPH_DEGREE_H
 #include "Department.h"
 #include "BinaryTree.h"
+#include "Requirements.h"
 
 /**
  * Represents a Degree. Contains LinkedList<LinkedList<String>> where  the 2D LinkedLists were disjuncts, 1D are the
@@ -9,7 +10,7 @@
  */
 typedef struct Degree_struct {
     char name[TITLE_LEN];
-    LinkedList *reqs;
+    Requirements *reqs;
 } Degree;
 
 /**
@@ -42,9 +43,6 @@ int Degree_compareString(const void *one, const void *two);
  */
 int Degree_compareCourseLineString(const void *one, const void *two);
 
-void Degree_findReqsDifference(Degree *degree, BinaryTree *courseStrings, LinkedList *reqs);
-
-void Degree_reqsToString(LinkedList *reqs, char *str);
 
 void Degree_removeCourse(Degree *degree, char *courseName);
 /**
@@ -54,11 +52,6 @@ void Degree_removeCourse(Degree *degree, char *courseName);
  */
 void Degree_toString(const void *degree, char *str);
 
-/**
- * Helper Destructor which destroys degree->reqs
- * @param list The initialized LinkedList to free
- */
-void Degree_courseListFree(void *list);
 
 /**
  * Main destructor for Degree

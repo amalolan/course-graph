@@ -40,7 +40,7 @@ void BinaryTree_insert(BinaryTree *tree, void *data, int (*comparator)(const voi
     tree->size++;
 }
 
-TreeNode* BinaryTree_find(BinaryTree *tree, void *data) {
+void* BinaryTree_find(BinaryTree *tree, const void *data) {
     if (tree == NULL || data == NULL) return NULL;
     TreeNode *curr = tree->root;
     while (curr != NULL) {
@@ -49,10 +49,16 @@ TreeNode* BinaryTree_find(BinaryTree *tree, void *data) {
         } else if (tree->comparator(curr->data, data) < 0) {
             curr = curr->right;
         } else {
-            return curr;
+            return curr->data;
         }
     }
     return NULL;
+}
+
+int BinaryTree_findComparator(const void *one, const void *two) {
+    BinaryTree *courses = (BinaryTree*)two;
+    if (BinaryTree_find(courses, one) == NULL) return -1;
+    return 0;
 }
 
 TreeNode* BinaryTree_removeNode(BinaryTree *tree, TreeNode *node, void *data, void (*data_free)(void *)) {
