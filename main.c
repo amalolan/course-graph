@@ -90,6 +90,7 @@ int main(int argc, char *argv[]) {
         }
     }
 //    run(graph);
+
     testGraph(graph);
     Graph_free(graph);
     free(graph);
