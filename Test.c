@@ -89,6 +89,49 @@ void testGraphDataStructure() {
     free(g);
 }
 
+
+
+void testTree() {
+    BinaryTree *tree = malloc(sizeof(BinaryTree));
+    BinaryTree_init(tree, string_compare);
+
+    char *f = malloc(10), *b = malloc(10), *a = malloc(10),
+    *c = malloc(10), *g = malloc(10), *d = malloc(10), *h = malloc(10);
+    strcpy(f, "f");
+    strcpy(b, "b");
+    strcpy(a, "a");
+    strcpy(c, "c");
+    strcpy(g, "g");
+    strcpy(h, "h");
+    strcpy(d, "d");
+    BinaryTree_insert(tree, f, NULL);
+    BinaryTree_insert(tree, b, NULL);
+    BinaryTree_insert(tree, a, NULL);
+    BinaryTree_insert(tree, c, NULL);
+    BinaryTree_insert(tree, h, NULL);
+    BinaryTree_insert(tree, g, NULL);
+    BinaryTree_insert(tree, d, NULL);
+//    BinaryTree_serialize(tree, list);
+
+    char line[MAX_LINE_LENGTH];
+//    ArrayList_toString(list, string_toString, line);
+//    printf("%s\n", line);
+
+    BinaryTree_remove(tree, a, free_data);
+    BinaryTree_remove(tree, c, free_data);
+    BinaryTree_remove(tree, f, free_data);
+//    BinaryTree_remove(tree, f, free_data);
+
+//    TreeNode *node = BinaryTree_find(tree, "g");
+//    printf("find g: %s\nleft: %s\nright: %s\n", node->data, node->left->data, node->right->data);
+
+    BinaryTree_toString(tree, string_toString, line);
+    printf("%s\n", line);
+
+    BinaryTree_free(tree, free_data);
+    free(tree);
+}
+
 void tests(int argc, char **argv) {
     testDegree();
     testCourse();

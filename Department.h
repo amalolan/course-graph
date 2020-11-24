@@ -2,7 +2,7 @@
 #define COURSE_GRAPH_DEPARTMENT_H
 
 #include "LinkedList.h"
-#include "ArrayList.h"
+#include "BinaryTree.h"
 #include "Course.h"
 
 /**
@@ -10,7 +10,7 @@
  */
 typedef struct Department_struct {
     char name[TITLE_LEN];
-    ArrayList *courses;
+    BinaryTree *courses;
 } Department;
 
 /**

@@ -82,7 +82,7 @@ void Graph_addCourse(Graph *graph, char *line) {
 Department *Graph_findDepartmentOfCourse(Graph *graph, char *courseName) {
     for (size_t i = 0; i < graph->departments->size; i++) {
         Department *department = ArrayList_get(graph->departments, i);
-        Course *course = ArrayList_find(department->courses, courseName, Course_compareString);
+        Course *course = BinaryTree_find(department->courses, courseName);
         if (course != NULL) {
             return department;
         }
@@ -93,9 +93,9 @@ Department *Graph_findDepartmentOfCourse(Graph *graph, char *courseName) {
 Course *Graph_findCourse(Graph *graph, char *courseName) {
     for (size_t i = 0; i < graph->departments->size; i++) {
         Department *department = ArrayList_get(graph->departments, i);
-        Course *course = ArrayList_find(department->courses, courseName, Course_compareString);
-        if (course != NULL) {
-            return course;
+        TreeNode *node = BinaryTree_find(department->courses, courseName);
+        if (node != NULL) {
+            return node->data;
         }
     }
     return NULL;
@@ -203,7 +203,7 @@ void Graph_describeNextDegreeReqs(Graph *graph, char* studentName) {
             } else {
                 Node *prereq = course->prereqs->head;
                 while (prereq != NULL) {
-                    if (ArrayList_find(student->courses, prereq->data, string_compare) != NULL) {
+                    if (BinaryTree_find(student->courses, prereq->data) != NULL) {
                         prereqMet = true;
                         break;
                     }
@@ -245,18 +245,12 @@ void Graph_removeCourse(Graph *graph, char *line) {
         return;
     }
     str++;
-    int index = ArrayList_index(department->courses, str, Course_compareString);
-    if (index == -1) {
+    TreeNode *node = BinaryTree_find(department->courses, str);
+    if (node == NULL) {
         printf("Course not in Department\n");
     } else {
-        Course *course  = ArrayList_get(department->courses, index); // TODO: Binary Tree
-        Course_free(course);
-        free(course);
-        course = malloc(sizeof(Course));
-        Course_init(course, "DEL", "DELETED");
-        ArrayList_set(department->courses, index, course);
+        BinaryTree_remove(department->courses, str, free_data);
     }
-    // TODO: Remove from department->courses binary tree
 
     // Remove from Degrees
     for (size_t i = 0; i < graph->degrees->size; i++) {
@@ -267,10 +261,15 @@ void Graph_removeCourse(Graph *graph, char *line) {
     Course *parent;
     for (size_t i = 0; i < graph->departments->size; i++) {
         department = ArrayList_get(graph->departments, i);
-        for (size_t j = 0; j < department->courses->size; j++) {
-            parent = ArrayList_get(department->courses, j); // TODO: Binary Tree
-            LinkedList_remove(parent->prereqs, str, string_compare, data_free);
+        ArrayList *list = malloc(sizeof(ArrayList));
+        ArrayList_init(list);
+        BinaryTree_serialize(department->courses, list);
+        for (size_t j = 0; j < list->size; j++) {
+            parent = ArrayList_get(list, j); // TODO: Binary Tree
+            LinkedList_remove(parent->prereqs, str, string_compare, free_data);
         }
+        ArrayList_free(list, dont_free);
+        free(list);
     }
 
 }
@@ -320,8 +319,11 @@ void Graph_describeCourseEffect(Graph *graph, char *courseName) {
          * Go through every course and check if this is a prereq for any of them.
          * Use special compator to check, and print it if it is.
          */
-        for (size_t j = 0; j < department->courses->size; j++) {
-            Course *parent = ArrayList_get(department->courses, j);
+        ArrayList *list = malloc(sizeof(ArrayList));
+        ArrayList_init(list);
+        BinaryTree_serialize(department->courses, list);
+        for (size_t j = 0; j < list->size; j++) {
+            Course *parent = ArrayList_get(list, j);
             Course *foundPrereq = LinkedList_find(parent->prereqs, course->name, string_compare);
             if (foundPrereq != NULL) {
                 if (!first) {
@@ -331,6 +333,8 @@ void Graph_describeCourseEffect(Graph *graph, char *courseName) {
                 printf("%s", parent->name);
             }
         }
+        ArrayList_free(list, dont_free);
+        free(list);
     }
     if (first == true) printf("No courses have %s as a pre-requisite", courseName);
     // Many courses could have it as prereq

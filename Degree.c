@@ -1,4 +1,5 @@
 #include "Degree.h"
+#include "BinaryTree.h"
 
 
 void Degree_init(Degree *degree, char *name) {
@@ -33,9 +34,9 @@ void Degree_removeCourse(Degree *degree, char *courseName) {
     Node *currLine = degree->reqs->head;
     while (currLine != NULL) {
         LinkedList *courseList = (LinkedList *) currLine->data;
-        if (LinkedList_remove(courseList, courseName, string_compare, data_free)) {
+        if (LinkedList_remove(courseList, courseName, string_compare, free_data)) {
             if (courseList->size == 0) {
-                LinkedList_remove(degree->reqs, courseList, direct_compare, data_free);
+                LinkedList_remove(degree->reqs, courseList, direct_compare, free_data);
             }
             return;
         }
@@ -44,7 +45,7 @@ void Degree_removeCourse(Degree *degree, char *courseName) {
 }
 
 
-void Degree_findReqsDifference(Degree *degree, ArrayList *courseStrings, LinkedList *reqs) {
+void Degree_findReqsDifference(Degree *degree, BinaryTree *courseStrings, LinkedList *reqs) {
     Node *currLine = degree->reqs->head;
     /**
      * each currLine is a LinkedList. The loop then looks again at each element.
@@ -55,7 +56,7 @@ void Degree_findReqsDifference(Degree *degree, ArrayList *courseStrings, LinkedL
         bool found = false;
         while (currCourse != NULL) {
             // TODO: Change to Binary Tree
-            if (ArrayList_find(courseStrings, currCourse->data, string_compare)) {
+            if (BinaryTree_find(courseStrings, currCourse->data)) {
                 found = true;
                 break;
             }
@@ -72,7 +73,7 @@ void Degree_reqsToString(LinkedList *reqs, char *str) {
     strcpy(str, "");
     Node *currLine = reqs->head;
     /**
-     * each currLine is a LinkedList. The loop then looks again at each elemen.
+     * each currLine is a LinkedList. The loop then looks again at each element.
      */
     while (currLine != NULL) {
         LinkedList *courseList = (LinkedList *) currLine->data;
@@ -99,7 +100,7 @@ void Degree_toString(const void *data, char *str) {
 }
 
 void Degree_courseListFree(void *list) {
-    LinkedList_free(list, data_free);
+    LinkedList_free(list, free_data);
     free(list);
 }
 

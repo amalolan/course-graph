@@ -91,6 +91,7 @@ int main(int argc, char *argv[]) {
     }
 //    run(graph);
     testGraph(graph);
+//    testTree();
     Graph_free(graph);
     free(graph);
     return 0;

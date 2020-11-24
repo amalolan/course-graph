@@ -6,7 +6,7 @@ int string_compare(const void *one, const void *two) {
     return strcmp(onec, twoc);
 }
 
-void data_free(void *data) {
+void free_data(void *data) {
     free(data);
 }
 
@@ -18,6 +18,9 @@ int direct_compare(const  void *one, const void *two) {
     return one != two;
 }
 
+void string_toString(const void *data, char *str) {
+    strcpy(str, (char *)data);
+}
 
 void removeNewline(char *str) {
     size_t ln = strlen(str)-1;

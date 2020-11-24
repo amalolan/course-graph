@@ -2,10 +2,10 @@
 #define COURSE_GRAPH_ARRAYLIST_H
 #define ARRAYLIST_MIN 10
 
-#include <stdio.h>
-#include <stddef.h>
-#include <stdlib.h>
-#include "Util.h"
+    #include <stdio.h>
+    #include <stddef.h>
+    #include <stdlib.h>
+    #include "Util.h"
 
 /**
  * ArrayList implements resizable array. Doubles when capacity is reached.
@@ -48,7 +48,7 @@ void ArrayList_set(ArrayList *list, size_t index, void *data);
 void ArrayList_push(ArrayList *list, void *data);
 
 /**
- * Destructs the array list. Frees buf and calls data_free on the data to free whatever
+ * Destructs the array list. Frees buf and calls free_data on the data to free whatever
  * the data needs to free.
  * @param list The ArrayList to free.
  * @param data_free destructor function for the data. Depending on the type of data, destructs and frees memory.

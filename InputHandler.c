@@ -1,9 +1,5 @@
 #include "InputHandler.h"
 
-Course *readCourse(char *line) {
-    char str[MAX_LINE_LENGTH]; // Definition of MAX_LINE_LENGTH
-
-}
 
 Degree *readDegree(FILE *fp) {
     char str[MAX_LINE_LENGTH]; // Definition of MAX_LINE_LENGTH

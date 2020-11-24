@@ -7,6 +7,7 @@
 #include "Degree.h"
 #include "Graph.h"
 #include "InputHandler.h"
+#include "BinaryTree.h"
 /**
  * tests the degree struct
  */
@@ -34,6 +35,8 @@ void testGraphDataStructure();
 void testAndReadDegree(char *filepath);
 
 void testGraph(Graph *graph);
+
+void testTree();
 /**
  * runs all tests
  * @param argc  argc from main

@@ -28,8 +28,10 @@ int direct_compare(const  void *one, const void *two);
  * Wrapper for a call to free(data)
  * @param data allocated data to free.
  */
-void data_free(void *data);
+void free_data(void *data);
 
 void dont_free(void *data);
+
+void string_toString(const void *data, char *str);
 
 #endif //COURSE_GRAPH_UTIL_H

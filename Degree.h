@@ -1,6 +1,7 @@
 #ifndef COURSE_GRAPH_DEGREE_H
 #define COURSE_GRAPH_DEGREE_H
 #include "Department.h"
+#include "BinaryTree.h"
 
 /**
  * Represents a Degree. Contains LinkedList<LinkedList<String>> where  the 2D LinkedLists were disjuncts, 1D are the
@@ -41,7 +42,7 @@ int Degree_compareString(const void *one, const void *two);
  */
 int Degree_compareCourseLineString(const void *one, const void *two);
 
-void Degree_findReqsDifference(Degree *degree, ArrayList *courseStrings, LinkedList *reqs);
+void Degree_findReqsDifference(Degree *degree, BinaryTree *courseStrings, LinkedList *reqs);
 
 void Degree_reqsToString(LinkedList *reqs, char *str);
 

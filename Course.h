@@ -44,6 +44,8 @@ void Course_toString(Course *course, char *str);
  */
 int Course_compareString(const void *one, const void *two);
 
+int Course_compareCourse(const void *one, const void*two);
+
 /**
  * Converts prereqs LinkedList to a single line of strings
  * @param course The initialized course

@@ -2,13 +2,13 @@
 #define COURSE_GRAPH_STUDENT_H
 
 #include "LinkedList.h"
-#include "ArrayList.h"
+#include "BinaryTree.h"
 #include "Course.h"
 
 typedef struct Student_struct {
     char name[TITLE_LEN];
     char degree[TITLE_LEN];
-    ArrayList *courses;
+    BinaryTree *courses;
 } Student;
 
 void Student_init(Student *student, char *name, char *degree);
