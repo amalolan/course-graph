@@ -1,5 +1,8 @@
 #include "Student.h"
 
+/**
+ * Initialize by first copying strings then initializing BinaryTree
+ */
 void Student_init(Student *student, char *name, char *degree) {
     strcpy(student->name, name);
     strcpy(student->degree, degree);
@@ -20,6 +23,9 @@ int Student_compareString(const void *one, const void *two) {
     return strcmp(student->name, studentName);
 }
 
+/**
+ * Convert to string by serializing
+ */
 void Student_toString(const void *data, char *str) {
     Student *student = (Student *) data;
     sprintf(str, "degree: %s\n", student->degree);
@@ -43,6 +49,9 @@ void Student_toString(const void *data, char *str) {
     }
 }
 
+/**
+ * First destruct the binary tree then free the courses variable.
+ */
 void Student_free(void *data) {
     Student *student = (Student *)data;
     BinaryTree_free(student->courses, free_data);

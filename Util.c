@@ -1,4 +1,7 @@
 #include "Util.h"
+/**
+ * This file contains general utility functions for the rest of the code.
+ */
 
 int string_compare(const void *one, const void *two) {
     char *onec = (char *) one;
@@ -11,6 +14,7 @@ void free_data(void *data) {
 }
 
 void dont_free(void *data) {
+    // don't do anything
     return;
 }
 

@@ -2,10 +2,10 @@
 #define COURSE_GRAPH_ARRAYLIST_H
 #define ARRAYLIST_MIN 10
 
-    #include <stdio.h>
-    #include <stddef.h>
-    #include <stdlib.h>
-    #include "Util.h"
+#include <stdio.h>
+#include <stddef.h>
+#include <stdlib.h>
+#include "Util.h"
 
 /**
  * ArrayList implements resizable array. Doubles when capacity is reached.

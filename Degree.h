@@ -5,8 +5,7 @@
 #include "Requirements.h"
 
 /**
- * Represents a Degree. Contains LinkedList<LinkedList<String>> where  the 2D LinkedLists were disjuncts, 1D are the
- * conjuncts.
+ * Represents a Degree. Reqs are stored as 2D Linkedlists of strings.
  */
 typedef struct Degree_struct {
     char name[TITLE_LEN];
@@ -35,26 +34,23 @@ void Degree_parseLine(Degree *degree, char *line);
  */
 int Degree_compareString(const void *one, const void *two);
 
+
 /**
- * Comparator used to check if two is in one. One is LinkedList* and two is char*
- * @param one  LinkedList* the linked list to find two in
- * @param two char* the string to look for in the linked list
- * @return 0 if found, -1 otherwise
+ * Removes a course from the degree.
+ * @param degree The degree to remove from
+ * @param courseName The name of the course to remove (ex. CS 150)
  */
-int Degree_compareCourseLineString(const void *one, const void *two);
-
-
 void Degree_removeCourse(Degree *degree, char *courseName);
 /**
  * String representation of degree
- * @param degree  intialized degree
+ * @param degree intialized degree
  * @param str place to store the string rep. Needs memory to be allocated.
  */
 void Degree_toString(const void *degree, char *str);
 
 
 /**
- * Main destructor for Degree
+ * Destructor for degree
  * @param data Initialized data to destroy
  */
 void Degree_free(void *data);

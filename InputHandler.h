@@ -17,6 +17,11 @@ Degree* readDegree(FILE *fp);
  */
 Department* readDepartment(FILE *fp);
 
+/**
+ * Reads the student file and returns a student object.
+ * @param fp The Student FILE
+ * @return the student pointer with space on the heap.
+ */
 Student* readStudent(FILE *fp);
 
 /**

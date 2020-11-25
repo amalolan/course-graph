@@ -1,6 +1,9 @@
 #include "InputHandler.h"
 
-
+/**
+ * Loop through the file and read the lines one by one. Use parser function
+ * from Degree
+ */
 Degree *readDegree(FILE *fp) {
     char str[MAX_LINE_LENGTH]; // Definition of MAX_LINE_LENGTH
     fgets(str, MAX_LINE_LENGTH, fp); // Degree Name
@@ -9,11 +12,15 @@ Degree *readDegree(FILE *fp) {
     Degree_init(degree, str);
     while (fgets(str, MAX_LINE_LENGTH, fp)) {
         removeNewline(str);
-        Degree_parseLine(degree, str);
+        if(strlen(str) != 0)
+            Degree_parseLine(degree, str);
     }
     return degree;
 }
 
+/**
+ * Loop through the file. Use parser function from Course
+ */
 Department *readDepartment(FILE *fp) {
     char str[MAX_LINE_LENGTH],
         courseName[COURSE_NAME_LEN];
@@ -30,13 +37,14 @@ Department *readDepartment(FILE *fp) {
     while (fgets(str, MAX_LINE_LENGTH, fp)) {
         removeNewline(str);
         if (count == 0) {  // Course name
+            if(strlen(str) == 0) break;
             strcpy(courseName, str);
         } else if (count == 1) { // Course title
             course = malloc(sizeof(Course));
             Course_init(course, courseName, str);
             Department_addCourse(department, course);
         } else { // Prereqs
-            Course_parsePrereqsLine(course->prereqs, str);
+            Course_parsePrereqsLine(course, str);
         }
         count++;
         count = count % 3;
@@ -44,6 +52,9 @@ Department *readDepartment(FILE *fp) {
     return department;
 }
 
+/**
+ * Loop through every line. Every line is a single course name so no need to parse.
+ */
 Student *readStudent(FILE *fp) {
     char str[MAX_LINE_LENGTH],
             studentName[MAX_LINE_LENGTH];; // Definition of MAX_LINE_LENGTH
@@ -56,11 +67,16 @@ Student *readStudent(FILE *fp) {
     Student_init(student, studentName, str);
     while (fgets(str, COURSE_NAME_LEN, fp)) {
         removeNewline(str);
-        Student_addCourse(student, str);
+        if(strlen(str) != 0)
+            Student_addCourse(student, str);
     }
     return student;
 }
 
+/**
+ * Depending on the value of the first line call the respective function
+ * and add it to graph.
+ */
 void readFile(Graph *graph, char *filePath) {
     char str[MAX_LINE_LENGTH];
     FILE* fp = fopen(filePath, "r");

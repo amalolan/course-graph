@@ -4,7 +4,7 @@ void testCourse() {
     char line1[] = "OR CS 104, CS 105, CS 106";
     Course c;
     Course_init(&c, "CS 150", "DS and A");
-    Course_parsePrereqsLine(c.prereqs, line1);
+    Course_parsePrereqsLine(&c, line1);
     char *courseStr = malloc(1000);
     Course_toString(&c, courseStr);
     printf("%s", courseStr);
@@ -18,13 +18,13 @@ void testDepartment() {
             (sizeof(Course));
     char line1[] = "OR CS 104, CS 105, CS 106", line2[] = "CS 150";
     Course_init(c1, "CS 150", "DS and A");
-    Course_parsePrereqsLine(c1->prereqs, line1);
+    Course_parsePrereqsLine(c1, line1);
     Course_init(c2, "CS 205", "Software Engineering");
-    Course_parsePrereqsLine(c2->prereqs, line2);
+    Course_parsePrereqsLine(c2, line2);
     Course_init(c3, "CS 200", "Computers and Society");
-    Course_parsePrereqsLine(c3->prereqs, "");
+    Course_parsePrereqsLine(c3, "");
     Course_init(c4, "CS 202", "Analysis of Algorithms");
-    Course_parsePrereqsLine(c4->prereqs, line2);
+    Course_parsePrereqsLine(c4, line2);
 
     Department d;
     Department_init(&d, "CS");
@@ -143,6 +143,7 @@ void tests(int argc, char **argv) {
     testTree();
 }
 
+// Called from main after reading in all the files.
 void testGraph(Graph *graph) {
 
     printf("\n%s\n", "Testing c");

@@ -53,7 +53,14 @@ void * LinkedList_find(const LinkedList *list, const void *data, int (*compare)(
  */
 void LinkedList_free(LinkedList *list, void (*data_free)(void *));
 
-
+/**
+ * Removes data from a list.
+ * @param list The initialized list
+ * @param data The data to look for to remove from the list
+ * @param compare The comparator to use
+ * @param data_free The destructor to use for the removed data
+ * @return true if removed from the list, false if could not be found
+ */
 bool LinkedList_remove(LinkedList *list, const void *data, int (*compare)(const void *, const void *),
                        void (*data_free)(void *));
 

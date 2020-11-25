@@ -6,8 +6,10 @@ void LinkedList_init(LinkedList *list) {
     list->size = 0;
 }
 
-// data ptr needs to be unique, don't push non-unique pointers.
-// Failsafe check in place
+/**
+ * data * needs to be unique, don't push non-unique pointers.
+ * Failsafe check in place
+ */
 void LinkedList_push(LinkedList *list, void *data) {
     if (list == NULL || data == NULL) return;
 
@@ -17,6 +19,9 @@ void LinkedList_push(LinkedList *list, void *data) {
         node->next = NULL;
         list->head = node;
     } else {
+        /*
+         * Find the last node then append it there
+         */
         Node *curr = list->head;
         if (curr->data == data) return;
         while (curr->next != NULL) {
@@ -30,9 +35,12 @@ void LinkedList_push(LinkedList *list, void *data) {
     }
     list->size++;
 }
-
+/**
+ * find using the comparator provided
+ */
 void * LinkedList_find(const LinkedList *list, const void *data, int (*compare)(const void *, const void *)) {
     if (list == NULL || data == NULL) return NULL;
+    // conside for loop
     for (Node *curr = list->head; curr != NULL; curr = curr->next)  {
         if (compare(curr->data, data) == 0) {
             return curr->data;
@@ -41,6 +49,10 @@ void * LinkedList_find(const LinkedList *list, const void *data, int (*compare)(
     return NULL;
 }
 
+/**
+ * consider two cases for removal, head and non-head. Simply manipulate where
+ * the nodes point to and free the removed node by calling its destructor
+ */
 bool LinkedList_remove(LinkedList *list, const void *data, int (*compare)(const void *, const void *),
                          void (*data_free)(void *)) {
     if (list == NULL || data == NULL) return false;
@@ -53,6 +65,7 @@ bool LinkedList_remove(LinkedList *list, const void *data, int (*compare)(const 
                 prev->next = curr->next;
             }
             list->size--;
+            // Now the data has been removed. Can be freed.
             data_free(curr->data);
             free(curr);
             return true;
@@ -63,7 +76,9 @@ bool LinkedList_remove(LinkedList *list, const void *data, int (*compare)(const 
     return false;
 }
 
-
+/**
+ * Iteratively free all data then their nodes.
+ */
 void LinkedList_free(LinkedList *list, void (*data_free)(void *)) {
     if (list == NULL) return;
     for ( Node *curr = list->head, *next; curr != NULL;  curr = next) {

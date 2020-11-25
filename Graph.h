@@ -6,7 +6,7 @@
 #include "Student.h"
 
 /**
- * Graph stores all the departments and degrees.
+ * Graph stores all the departments, degrees, and students.
  * Also contains all the logic behind the commands the User inputs.
  */
 typedef struct Graph_struct {
@@ -30,21 +30,54 @@ void Graph_addDepartment(Graph *graph, Department *department);
 
 /**
  * Adds a degree to the graph.
- * @param graph An initialized graph/
+ * @param graph An initialized graph
  * @param degree An initialized degree.
  */
 void Graph_addDegree(Graph *graph, Degree *degree);
 
+/**
+ * Adds a student to the graph
+ * @param graph An initialized graph
+ * @param student An initialized student
+ */
 void Graph_addStudent(Graph *graph, Student *student);
 
+/**
+ * Adds a course to the graph from the cli
+ * @param graph an initialized graph
+ * @param line follows the format: department, course name, course title, (OR) prereqs list
+ * May or may not contain the 'OR ' characters. If it does then disjunct, else the list
+ * is a conjunct.
+ */
 void Graph_addCourse(Graph *graph, char *line);
 
+/**
+ * Prints the courses in a student's degree that aren't completed yet by the student.
+ * @param graph an initialized graph
+ * @param studentName the student's name
+ */
 void Graph_describeDegreeReq(Graph *graph, char *studentName);
 
+/**
+ * Prints the next courses that can be taken to fulfill degree requirements.
+ * Only courses whose prereqs are satisfied will be printed out
+ * @param graph an initialized graph
+ * @param studentName the student's name
+ */
 void Graph_describeNextDegreeReqs(Graph *graph, char* studentName);
-
+/**
+ * Removes a course from the graph i.e from department, degree, and from all
+ * courses that have this as their prereq
+ * @param graph the graph to remove from
+ * @param line follows the format: department, course name
+ */
 void Graph_removeCourse(Graph *graph, char *line);
 
+/**
+ * Removes a course from the degree specified in line.
+ * @param graph The graph to remove the degree from
+ * @param line follows the format: degree, courseName
+ */
 void Graph_removeCourseDegree(Graph *graph, char *line);
 /**
  * Finds the course then returns the department it is under.
@@ -113,6 +146,11 @@ void Graph_printDegree(Graph *graph, char *degreeName);
  */
 void Graph_printDepartment(Graph *graph, char *departmentName);
 
+/**
+ * Prints the student to cli
+ * @param graph Graph with the student
+ * @param studentName student to print
+ */
 void Graph_printStudent(Graph* graph, char *studentName);
 
 /**
@@ -133,7 +171,10 @@ void Graph_print(Graph *graph);
  */
 void Graph_departmentFree(void *data);
 
-
+/**
+ * Wrapper to free the student
+ * @param data Student pointer to free and destruct
+ */
 void Graph_studentFree(void *data);
 /**
  * Destructs the graph and its elements

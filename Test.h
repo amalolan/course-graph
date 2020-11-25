@@ -34,8 +34,15 @@ void testGraphDataStructure();
  */
 void testAndReadDegree(char *filepath);
 
+/**
+ * tests all graph methods
+ * @param graph An initialized graph instance
+ */
 void testGraph(Graph *graph);
 
+/**
+ * tests the binary tree implementation
+ */
 void testTree();
 /**
  * runs all tests
