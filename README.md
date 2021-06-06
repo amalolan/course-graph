@@ -1,5 +1,5 @@
 # course-graph
-CS 203 Project 2 - Course Dependencies Graph
+CS 203 Semester Project: A C Program that handles a course database. Given information about the various degrees offered in different departments of a college/university, and information about courses and their requirements, the program can keep track of different individuals' progress towards their degree and display the relevant courses they would need to take to complete their degrees.
 
 ## Build using make 
 Makefile already exists. Just run make.
